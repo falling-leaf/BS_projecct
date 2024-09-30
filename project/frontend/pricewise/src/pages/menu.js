@@ -1,66 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from'react-router-dom';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { AppstoreOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-const items = [
+import ItemList from '../components/itemlist.js'
+
+const submenu = [
   {
-    label: 'Navigation One',
-    key: 'mail',
-    icon: <MailOutlined />,
-  },
-  {
-    label: 'Navigation Two',
-    key: 'app',
+    label: '京东搜索结果',
+    key: 'jingdong',
     icon: <AppstoreOutlined />,
-    disabled: true,
   },
   {
-    label: 'Navigation Three - Submenu',
-    key: 'SubMenu',
-    icon: <SettingOutlined />,
-    children: [
-      {
-        type: 'group',
-        label: 'Item 1',
-        children: [
-          {
-            label: 'Option 1',
-            key: 'setting:1',
-          },
-          {
-            label: 'Option 2',
-            key: 'setting:2',
-          },
-        ],
-      },
-      {
-        type: 'group',
-        label: 'Item 2',
-        children: [
-          {
-            label: 'Option 3',
-            key: 'setting:3',
-          },
-          {
-            label: 'Option 4',
-            key: 'setting:4',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'alipay',
-    label: (
-      <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-        Navigation Four - Link
-      </a>
-    ),
-  },
+    label: '淘宝搜索结果',
+    key: 'taobao',
+    icon: <AppstoreOutlined />,
+  }
 ];
+
 const Menupage = () => {
   const [searchValue, setSearchValue] = useState('');
-  const [current, setCurrent] = useState('mail');
+  const [current, setCurrent] = useState('jingdong');
+  const items = [
+    {
+      id: '1',
+      name: '物品1',
+      price: '1000',
+      img: '../assets/images/logo.png',
+      label: 'jingdong',
+      text: '物品1的简介'
+    },
+    {
+      id: '2',
+      name: '物品2',
+      price: '1000',
+      img: '../assets/images/logo.png',
+      label: 'taobao',
+      text: '物品2的简介'
+    }
+  ];
+
+  const filteredItems = items.filter(item => item.label === current);
 
   const Onmounted = () => {
     URLcomponent();
@@ -82,8 +61,10 @@ const Menupage = () => {
   return (
     <div>
       <h2>price-wise: 商品比价网站 - 查阅商品：{Onmounted()}</h2>
-      <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={items} />
+      <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={submenu} />
+      <ItemList items={filteredItems} />
     </div>
   );
 };
+
 export default Menupage;
