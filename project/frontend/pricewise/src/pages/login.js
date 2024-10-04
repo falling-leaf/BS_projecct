@@ -1,12 +1,41 @@
 import React from 'react';
-import { Input, Button } from 'antd';
+import { Input, Button, message } from 'antd';
 import logo from '../assets/images/logo.png'
+import axios from 'axios';
 import './login.css';
 
 const Login = () => {
 
+  const [username, setUsername] = React.useState('');
+  const [password, setPassword] = React.useState('');
   const handleLogin = () => {
-    window.location.href = '/search';
+      console.log(username);
+      console.log(password);
+      axios.post('/user/login', null,{
+        params: {
+          account: username,
+          password: password
+        }
+      })
+     .then(res => {
+        if (res.data === "login successfully") {
+          window.location.href = '/search';
+        } else {
+          message.error(res.data);
+        }
+      })
+     .catch(err => {
+        console.log(err);
+      });
+      // window.location.href = '/search';
+  };
+
+  const handleUsername = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
   };
 
   const handleRegister = () => {
@@ -32,7 +61,8 @@ const Login = () => {
             <Input 
             prefix = "用户名:" 
             size = "large" 
-            style={{ width: 300 }} 
+            style={{ width: 300 }}
+            onChange = {handleUsername}
             placeholder="用户名" />
             <p></p>
             <div>
@@ -40,6 +70,7 @@ const Login = () => {
             prefix = "密码:" 
             size = "large" 
             style={{ width: 300, contentAlign: 'center' }} 
+            onChange = {handlePassword}
             placeholder="密码" />
             <p/>
             </div>

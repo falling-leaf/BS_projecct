@@ -12,12 +12,13 @@ const Forget = () => {
     <div className = "Login">
       <header className = "Login-header">
           <div>
+            <h2>忘记密码</h2>
             <h3>通过邮箱验证码重置密码！</h3>
-            <div style={{ display: 'flex', justifyContent:'space-between' }}>
+            <div style={{ display: 'flex' }}>
               <Input 
                 prefix = "邮箱:" 
                 size = "large" 
-                style={{ width: 300, marginLeft: 50 }} 
+                style={{ width: "50%", marginLeft: 50 }} 
                 placeholder="邮箱" />
               <Button type="primary" size="large" style={{marginLeft: 20}}>发送验证码</Button>
             </div>
@@ -26,7 +27,7 @@ const Forget = () => {
               <Input
                 prefix="验证码:"
                 size="large"
-                style={{ width: 300, marginTop: 20 }}
+                style={{ width: "55%", marginTop: 20 }}
                 placeholder="验证码"
               />
               <Button type="primary" size="large" style={{marginLeft: 20, marginTop: 20}}>提交</Button>

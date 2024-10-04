@@ -6,6 +6,7 @@ import Register from './pages/register.js';
 import Forget from './pages/forget.js';
 import Menupage from './pages/menu.js';
 import Searchpage from './pages/search.js';
+import Detail from './pages/detail.js';
 
 const AppRoutes = () => {
     return (
@@ -17,6 +18,8 @@ const AppRoutes = () => {
           <Route path="/forget" element={<Forget />} />
           <Route path="/menu" element={<Menupage />} />
           <Route path="/search" element={<Searchpage />} />
+          <Route path="/detail" element={<Detail />} />
+          <Route path="*" element={<Login />} />
         </Routes>
       </Router>
     );

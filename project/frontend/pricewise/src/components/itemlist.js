@@ -4,9 +4,11 @@ import ItemCard from "./itemcard.js";
 
 const ItemList = ({ items }) => {
   return (
-    <div className="item-list">
+    <div className="item-list" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
         {items.map((item) => (
+          <div key={item.id} style={{ flex: '0 0 calc(25% - 20px)', marginBottom: '20px' }}>
           <ItemCard key={item.id} item={item} />
+          </div>
         ))}
         {
           items.length === 0 &&

@@ -1,12 +1,19 @@
 import React from 'react';
+import { Card } from 'antd';
 
 const ItemCard = ({item}) => {
+
+  const onClick = () => {
+    console.log("clicked");
+    window.location.href = "/detail?id=" + item.id;
+  };
   return (
     <div className="item-card">
-        <img src={item.img} alt={item.name} />
-        <h3>{item.name}</h3>
+      <Card title={item.name} style={{ width: "100%" }} onClick={onClick}>
+        <img src={item.image} alt={item.name} style={{ width: "100%" }} />
         <p>{item.text}</p>
-        <p>Price: {item.price}</p>
+        <div style={{ color: 'red' }}>￥{item.price}</div>
+      </Card>
     </div>
   );
 };
