@@ -3,6 +3,7 @@ package demo.mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Options;
 
@@ -19,6 +20,9 @@ public interface UserMapper{
     @Select("select account from User where account = #{account}")
     String findAccountByAccount(@Param("account") String account);
 
+    @Select("select * from User where account = #{account}")
+    User findUserByAccount(@Param("account") String account);
+
     @Select("select email from User where email = #{email}")
     String findEmailByEmail(@Param("email") String email);
 
@@ -26,4 +30,11 @@ public interface UserMapper{
     @Insert("insert into User(account, password, email) values(#{account}, #{password}, #{email})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertNewUser(User user);
+
+    // 3. 重置密码
+    @Select("select * from User where email = #{email}")
+    User findUserByEmail(@Param("email") String email);
+
+    @Update("update password set #{password} where account = #{account}")
+    void UpdatePasswordByAccount(@Param("account") String account, @Param("password") String password);
 }
