@@ -66,7 +66,7 @@ const Login = () => {
             placeholder="用户名" />
             <p></p>
             <div>
-            <Input 
+            <Input.Password 
             prefix = "密码:" 
             size = "large" 
             style={{ width: 300, contentAlign: 'center' }} 

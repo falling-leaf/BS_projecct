@@ -57,7 +57,7 @@ const Register = () => {
             onChange={handleUsername}
             placeholder="用户名不可少于6位" />
             <p />
-            <Input 
+            <Input.Password
             prefix = "密码:" 
             size = "large" 
             type="password" 
