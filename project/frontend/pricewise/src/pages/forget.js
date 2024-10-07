@@ -1,18 +1,69 @@
-import React from 'react';
-import { Input, Button } from 'antd';
+import React, { useEffect } from 'react';
+import { Input, Button, message } from 'antd';
+import axios from 'axios';
 
 const Forget = () => {
   const [email, setEmail] = React.useState('');
   const [username, setUsername] = React.useState('');
   const [code, setCode] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [seconds, setSeconds] = React.useState(60);
+  const [timerActive, setTimerActive] = React.useState(false);
+  const [confirmpassword, setConfirmPassword] = React.useState('');
+
+  useEffect(() => {
+    let timer;
+    if (timerActive && seconds > 0) {
+      timer = setTimeout(() => {
+        setSeconds(seconds - 1);
+      }, 1000);
+    } else if (seconds === 0) {
+      setTimerActive(false);
+      clearInterval(timer);
+      setSeconds(60);
+    }
+    return () => clearTimeout(timer);
+  }, [seconds, timerActive]);
 
   const handleSendCode = () => {
-    console.log(email, username);
+    console.log(email);
+    axios.get('/user/send_email', {
+      params: {
+        email: email
+      }
+    })
+    .then(res => {
+      if (res.data === 'send successfully'){
+        message.success('验证码已发送');
+        setTimerActive(true);
+      }
+      else
+        message.error(res.data);
+    })
+   .catch(error => {
+      console.log(error);
+    });
   }
 
   const handleSubmit = () => {
-    console.log(email, username, code, password);
+    axios.post('/user/reset_password', null, {
+      params: {
+        account: username,
+        email: email,
+        code: code,
+        new_password: password
+      }
+    })
+   .then(res => {
+      if (res.data === 'reset successfully'){
+        message.success('密码重置成功，请重新登录');
+      }
+      else
+        message.error(res.data);
+    })
+   .catch(error => {
+      console.log(error);
+   });
   }
 
   const handleBack = () => {
@@ -43,10 +94,11 @@ const Forget = () => {
                 onChange = {(e) => setEmail(e.target.value)}
                 />
             <Button 
+                disabled={timerActive}
                 type="primary" 
                 size="large" 
                 style={{marginLeft: "5%"}}
-                onClick={handleSendCode}>发送验证码</Button>
+                onClick={handleSendCode}>{timerActive ? "验证码已发送(" + seconds + "s)" : "发送验证码"}</Button>
           </div>
           <div>
             <Input
@@ -63,12 +115,22 @@ const Forget = () => {
                 size="large"
                 placeholder="密码不可少于6位"
                 onChange = {(e) => setPassword(e.target.value)}
-                onPressEnter={handleSubmit}
+                // onPressEnter={handleSubmit}
+                />
+          </div>
+          <div style={{marginTop: "5%"}}>
+            <Input.Password
+                prefix="确认密码:"
+                size="large"
+                placeholder="密码不可少于6位"
+                onChange = {(e) => setConfirmPassword(e.target.value)}
+                // onPressEnter={handleSubmit}
                 />
           </div>
           <Button
               type="primary"
               size="large"
+              disabled={password !== confirmpassword}
               style={{marginLeft: 20, marginTop: "5%"}}
               onClick={handleSubmit}>提交</Button>
           <Button

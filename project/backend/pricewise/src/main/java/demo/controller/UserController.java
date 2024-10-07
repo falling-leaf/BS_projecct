@@ -26,6 +26,7 @@ public class UserController {
     // 1. 登录功能
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestParam String account, @RequestParam String password) {
+        System.out.println("in the login func");
         String res_password = userService.login(account);
         if (res_password == null)
             return ResponseEntity.ok("用户不存在");
