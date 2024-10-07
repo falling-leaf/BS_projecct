@@ -6,7 +6,6 @@ import demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 // 正则表达式的包
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +13,8 @@ import java.util.regex.Pattern;
 // 发送邮件的包
 import demo.EmailSender;
 
+// 加密的包
+import demo.Encoder;
 
 @RestController
 @RequestMapping("/user")
@@ -29,7 +30,7 @@ public class UserController {
         if (res_password == null)
             return ResponseEntity.ok("用户不存在");
         else {
-            if (!res_password.equals(password))
+            if (!res_password.equals(Encoder.sha256(password)))
                 return ResponseEntity.ok("密码错误");
             else return ResponseEntity.ok("login successfully");
         }
@@ -57,7 +58,7 @@ public class UserController {
         if (!isValidEmail(email))
             return ResponseEntity.ok("邮箱格式有误");
 
-        User user = new User(0, account, password, email);
+        User user = new User(0, account, Encoder.sha256(password), email);
         userService.register(user);
         return ResponseEntity.ok("register successfully");
     }
@@ -87,7 +88,7 @@ public class UserController {
         else if (new_password.length() < 6)
             return ResponseEntity.ok("新密码过短");
         else {
-            userService.update_password_by_account(account, new_password);
+            userService.update_password_by_account(account, Encoder.sha256(new_password));
             return ResponseEntity.ok("reset successfully");
         }
     }
