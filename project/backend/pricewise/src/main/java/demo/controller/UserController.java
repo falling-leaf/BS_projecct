@@ -76,13 +76,13 @@ public class UserController {
     }
 
     @PostMapping("/reset_password")
-    public ResponseEntity<String> reset_password(@RequestParam String account, @RequestParam String new_password, @RequestParam String email, @RequestParam String check_num) {
+    public ResponseEntity<String> reset_password(@RequestParam String account, @RequestParam String new_password, @RequestParam String email, @RequestParam String code) {
         User res_user = userService.find_user_by_account(account);
         if (res_user == null)
             return ResponseEntity.ok("用户名不存在");
         else if (!res_user.getEmail().equals(email))
             return ResponseEntity.ok("邮箱与帐户名不匹配");
-        else if (check_num == null) // 待补充
+        else if (code == null) // 待补充
             return ResponseEntity.ok("验证码错误");
         else if (new_password.length() < 6)
             return ResponseEntity.ok("新密码过短");

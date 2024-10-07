@@ -9,7 +9,7 @@ import demo.Encoder;
 
 public class EmailSender {
 
-    public static String email_sender(String target_email) {
+    public static void email_sender(String target_email) {
         // 配置邮件服务器
         String host = "smtp.163.com";
         String username = "18858157930@163.com"; // 邮箱地址
@@ -51,7 +51,7 @@ public class EmailSender {
             // 发送邮件
             Transport.send(message);
             System.out.println("验证码已发送至 " + target_email);
-            return verificationCode;
+            // return verificationCode;
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

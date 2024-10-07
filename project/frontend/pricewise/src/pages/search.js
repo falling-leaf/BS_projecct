@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Input, message, Typography, List } from 'antd';
 import './search.css';
+const { Search } = Input;
 const { Text } = Typography;
 
 const Searchpage = () => {  
@@ -8,7 +9,7 @@ const Searchpage = () => {
     const [data, setData] = useState(['商品1', '商品2', '商品3', '商品4', '商品5', '商品6', '商品7', '商品8', '商品9', '商品10']);
     const handleSearch = () => {
         if (searchValue === '') {
-            ToLessMessage();
+            TooLessMessage();
         } else {
             window.location.href = '/menu?search=' + searchValue;
         }
@@ -23,7 +24,7 @@ const Searchpage = () => {
         setSearchValue(e.target.value);
     }
 
-    const ToLessMessage = () => {
+    const TooLessMessage = () => {
         message.info('请输入商品名称');
     }
 
@@ -36,13 +37,12 @@ const Searchpage = () => {
         <div style = {{textAlign: 'center', marginTop: '5%'}}>
             <h2>查询商品，发现更多好物：</h2>
             <p />
-            <Input 
+            <Search 
             placeholder="请输入商品名称" 
-            size="large" 
-            value={searchValue}
-            onChange = {handleInputChange}
-            onPressEnter={handleSearch}
-            style={{width: '50%'}}/>
+            size = "large" 
+            style = {{width: '50%'}}
+            onChange = {handleInputChange} 
+            onSearch={handleSearch} enterButton />
         </div>
         <div style={{ display: 'flex' }}>
             <List

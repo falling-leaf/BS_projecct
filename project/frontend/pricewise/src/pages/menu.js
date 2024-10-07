@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from'react-router-dom';
 import { AppstoreOutlined } from '@ant-design/icons';
-import { Menu, Typography } from 'antd';
+import { Input, Menu, Typography } from 'antd';
 import ItemList from '../components/itemlist.js';
 import logo from '../assets/images/logo.png'
 
 const { Text } = Typography;
+const { Search } = Input;
 
 const submenu = [
   {
@@ -97,6 +98,7 @@ const Menupage = () => {
   ];
   const [items, setItems] = useState(prim_items);
   const [searchValue, setSearchValue] = useState('');
+  const [newSearchValue, setNewSearchValue] = useState('');
   const [current, setCurrent] = useState('jingdong');
   const [filteredItems, setFilteredItems] = useState(items.filter(item => item.label === current));
   // const filteredItems = items.filter(item => item.label === current);
@@ -117,6 +119,7 @@ const Menupage = () => {
     console.log('click ', e);
     setCurrent(e.key);
   };
+
   const URLcomponent = () => {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
@@ -126,11 +129,28 @@ const Menupage = () => {
     }, [searchValue]);
     return searchValue;
   };
+
+  const handleSearchChange = (e) => {
+    setNewSearchValue(e.target.value);
+  };
+
+  const handleSearch = () => {
+    console.log(newSearchValue);
+    window.location.href = '/menu?search=' + newSearchValue;
+  };
   return (
     <div>
       <div>
-            <Text strong style={{fontSize: '24px'}}>price-wise:查询:{Onmounted()}</Text>
+            <Text strong style={{fontSize: '24px'}}>查询【{Onmounted()}】的结果</Text>
             <Text strong style={{fontSize: '24px', float: 'right'}}>XXX, 欢迎您！</Text>
+      </div>
+      <div style = {{textAlign: 'center'}}>
+        <Search 
+              placeholder="请输入商品名称" 
+              size = "large" 
+              style = {{width: '50%'}}
+              onChange = {handleSearchChange}
+              onSearch={handleSearch} enterButton />
       </div>
       <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={submenu} style = {{marginTop: '3%'}} />
       <br />
