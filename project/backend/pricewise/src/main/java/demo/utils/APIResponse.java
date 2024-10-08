@@ -1,5 +1,10 @@
 package demo.utils;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class APIResponse {
     private String message;
     private int status_code;

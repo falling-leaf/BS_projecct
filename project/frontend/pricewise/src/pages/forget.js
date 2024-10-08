@@ -33,12 +33,15 @@ const Forget = () => {
       }
     })
     .then(res => {
-      if (res.data === 'send successfully'){
+      if (res.data.message === 'send successfully'){
+        localStorage.setItem('reset_token', res.data.payload);
+        console.log(res.data);
+        console.log(res.data.payload);
         message.success('验证码已发送');
         setTimerActive(true);
       }
       else
-        message.error(res.data);
+        message.error(res.data.message);
     })
    .catch(error => {
       console.log(error);
@@ -51,11 +54,13 @@ const Forget = () => {
         account: username,
         email: email,
         code: code,
-        new_password: password
+        new_password: password,
+        jwt_value: localStorage.getItem('reset_token')
       }
     })
    .then(res => {
       if (res.data === 'reset successfully'){
+        localStorage.removeItem('reset_token');
         message.success('密码重置成功，请重新登录');
       }
       else

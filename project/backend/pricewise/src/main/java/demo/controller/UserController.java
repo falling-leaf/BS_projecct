@@ -29,7 +29,6 @@ public class UserController {
     // 1. 登录功能
     @PostMapping("/login")
     public ResponseEntity<APIResponse> login(@RequestParam String account, @RequestParam String password) {
-        System.out.println("in the login func");
         String res_password = userService.login(account);
         if (res_password == null)
             return ResponseEntity.ok(new APIResponse("用户不存在", 200));
@@ -81,6 +80,7 @@ public class UserController {
         } else {  // 发送验证码
             String code = EmailSender.email_sender(email);
             String jwt_value = JwtUtil.createJWT("email", email, code);
+            System.out.println(jwt_value);
             APIResponse response = new APIResponse("send successfully", 200, jwt_value);
             return ResponseEntity.ok(response);
         }

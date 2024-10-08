@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Input, message, Typography, List } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import './search.css';
 const { Search } = Input;
 const { Text } = Typography;
@@ -13,6 +14,10 @@ const Searchpage = () => {
         } else {
             window.location.href = '/menu?search=' + searchValue;
         }
+    }
+
+    const handleUser = () => {
+        console.log('user');
     }
 
     const OnItemClick = (item) => {
@@ -29,10 +34,10 @@ const Searchpage = () => {
     }
 
   return (
-    <div>
-        <div>
+    <div style={{height: "100vh"}}>
+        <div className='search-header'>
             <Text strong style={{fontSize: '24px'}}>price-wise:搜索</Text>
-            <Text strong style={{fontSize: '24px', float: 'right'}}>XXX, 欢迎您！</Text>
+            <UserOutlined style={{fontSize: '36px', float: 'right', marginRight: "1%"}} onClick={handleUser}/>
         </div>
         <div style = {{textAlign: 'center', marginTop: '5%'}}>
             <h2>查询商品，发现更多好物：</h2>

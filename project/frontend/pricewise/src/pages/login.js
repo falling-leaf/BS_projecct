@@ -18,10 +18,11 @@ const Login = () => {
         }
       })
      .then(res => {
-        if (res.data === "login successfully") {
+        if (res.data.message === "login successfully") {
+          localStorage.setItem('token', res.data.payload);
           window.location.href = '/search';
         } else {
-          message.error(res.data);
+          message.error(res.data.message);
         }
       })
      .catch(err => {
@@ -71,6 +72,7 @@ const Login = () => {
             size = "large" 
             style={{ width: 300, contentAlign: 'center' }} 
             onChange = {handlePassword}
+            onPressEnter={handleLogin}
             placeholder="密码" />
             <p/>
             </div>
