@@ -1,23 +1,51 @@
 import React, { useState } from 'react';
-import { Input, message, Typography, List } from 'antd';
+import { Input, message, Typography, List, Dropdown, Space, Modal } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import './search.css';
 const { Search } = Input;
 const { Text } = Typography;
 
+
+
 const Searchpage = () => {  
     const [searchValue, setSearchValue] = useState(''); 
+    const [isLogoutOpen, setIsLogoutOpen] = useState(false);
     const [data, setData] = useState(['商品1', '商品2', '商品3', '商品4', '商品5', '商品6', '商品7', '商品8', '商品9', '商品10']);
+
+    const handleShowLogout = () => {
+        setIsLogoutOpen(true);
+    }
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        setIsLogoutOpen(false);
+        window.location.href = '/login';
+    }
+
+    const items = [
+        {
+            key: '1',
+            label: '欢迎您，' + (localStorage.getItem('username') === null ? '游客' : localStorage.getItem('username')),
+        },
+        {
+            key: '2',
+            label: '个人中心',
+        },
+        {
+          key: '3',
+          label: (
+            <div onClick={handleShowLogout} style={{color: 'red'}}>退出登录</div>
+          ),
+        },
+      ];
+    
+
     const handleSearch = () => {
         if (searchValue === '') {
             TooLessMessage();
         } else {
             window.location.href = '/menu?search=' + searchValue;
         }
-    }
-
-    const handleUser = () => {
-        console.log('user');
     }
 
     const OnItemClick = (item) => {
@@ -35,9 +63,32 @@ const Searchpage = () => {
 
   return (
     <div style={{height: "100vh"}}>
+        <Modal
+            title="确认退出登录"
+            open={isLogoutOpen}
+            onOk={handleLogout}
+            onCancel={() => setIsLogoutOpen(false)}
+            okText="确认"
+            cancelText="取消"
+        >
+            你确定要退出登录吗？
+        </Modal>
         <div className='search-header'>
             <Text strong style={{fontSize: '24px'}}>price-wise:搜索</Text>
-            <UserOutlined style={{fontSize: '36px', float: 'right', marginRight: "1%"}} onClick={handleUser}/>
+            <div style={{fontSize: '30px', float: 'right', marginRight: "1%"}}>
+                <Dropdown
+                    trigger='click'
+                    menu={{
+                        items,
+                    }}
+                    >
+                    <div onClick={(e) => e.preventDefault()}>
+                        <Space>
+                        <UserOutlined />
+                        </Space>
+                    </div>
+                </Dropdown>
+            </div>
         </div>
         <div style = {{textAlign: 'center', marginTop: '5%'}}>
             <h2>查询商品，发现更多好物：</h2>

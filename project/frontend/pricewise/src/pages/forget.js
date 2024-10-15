@@ -62,6 +62,9 @@ const Forget = () => {
       if (res.data === 'reset successfully'){
         localStorage.removeItem('reset_token');
         message.success('密码重置成功，请重新登录');
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 1000);
       }
       else
         message.error(res.data);

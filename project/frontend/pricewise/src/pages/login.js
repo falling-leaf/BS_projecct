@@ -20,6 +20,7 @@ const Login = () => {
      .then(res => {
         if (res.data.message === "login successfully") {
           localStorage.setItem('token', res.data.payload);
+          localStorage.setItem('username', username);
           window.location.href = '/search';
         } else {
           message.error(res.data.message);

@@ -44,7 +44,7 @@ public class UserController {
 
     // 2. 注册功能
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestParam String account, @RequestParam String password, @RequestParam String email) {
+    public ResponseEntity<String> register(@RequestParam String account, @RequestParam String password, @RequestParam String email, @RequestParam String code, @RequestParam String jwt_value) {
         // 若存在账户则创建失败
         String res_account = userService.check_account(account);
         if (res_account != null)
@@ -63,6 +63,8 @@ public class UserController {
         // 检查邮箱格式
         if (!isValidEmail(email))
             return ResponseEntity.ok("邮箱格式有误");
+        if (!JwtUtil.paraJWT2code(jwt_value).equals(Encoder.sha256(code)))
+            return ResponseEntity.ok("验证码错误");
 
         User user = new User(0, account, Encoder.sha256(password), email);
         userService.register(user);
@@ -74,10 +76,13 @@ public class UserController {
     @GetMapping("/send_email")
     public ResponseEntity<APIResponse> send_email(@RequestParam String email) {
         User res_user = userService.check_user_by_email(email);
-        if (res_user == null) {   // 邮箱不存在
-            APIResponse response = new APIResponse("邮箱尚未被注册，请注册新账号", 200);
-            return ResponseEntity.ok(response);
-        } else {  // 发送验证码
+//        if (res_user == null) {   // 邮箱不存在
+//            APIResponse response = new APIResponse("邮箱尚未被注册，请注册新账号", 200);
+//            return ResponseEntity.ok(response);
+//        } else {  // 发送验证码
+        if (!isValidEmail(email)){
+            return ResponseEntity.ok(new APIResponse("邮箱格式不正确，请重新输入", 200));
+        } else {
             String code = EmailSender.email_sender(email);
             String jwt_value = JwtUtil.createJWT("email", email, code);
             System.out.println(jwt_value);
