@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, message, List} from 'antd';
 import TopPart from '../components/toppart';
+import axios from 'axios';
 const { Search } = Input;
 
 
@@ -9,35 +10,77 @@ const Searchpage = () => {
     const [searchValue, setSearchValue] = useState(''); 
     const [data, setData] = useState(['商品1', '商品2', '商品3', '商品4', '商品5', '商品6', '商品7', '商品8', '商品9', '商品10']);
     const [history, setHistory] = useState([]);
+    const [reloadData, setReloadData] = useState(false);
 
-    UseEffect(() => {
+    useEffect(() => {
         // 获取历史记录
         const getHistory = async () => {
-            const res = await axios.get('/user/get_history', {
+            const res = await axios.get('/history/get', {
                 params: {
-                    jwt_value: localStorage.getItem('jwt_value')
+                    jwt_value: localStorage.getItem('token')
                 }
             })
             .then(res => {
-                setHistory(res.data.history);
+                if (res.data.message === "invalid token") {
+                    message.error("登录token已失效，请重新登录");
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 1000);
+                } else {
+                    console.log(res.data.payload);
+                    setHistory(res.data.payload);
+                }
             })
            .catch(error => {
                 console.log(error);
             });
         }
         getHistory();
-    }, [])
+    }, [reloadData])
 
     const handleSearch = () => {
         if (searchValue === '') {
             TooLessMessage();
         } else {
+            axios.post('/history/insert', null, {
+                params: {
+                    jwt_value: localStorage.getItem('token'),
+                    input: searchValue
+                }})
+                .then(res => {
+                    if (res.data.message === "invalid token") {
+                        message.error("登录token已失效，请重新登录");
+                        setTimeout(() => {
+                            window.location.href = '/login';
+                        }, 1000);
+                    }
+                })
+               .catch(error => {
+                    console.log(error);
+                });
+            setReloadData(!reloadData);
             window.location.href = '/menu?search=' + searchValue;
         }
     }
 
     const OnItemClick = (item) => {
-        // console.log(item);
+        axios.post('/history/insert', null, {
+            params: {
+                jwt_value: localStorage.getItem('token'),
+                input: item
+            }})
+            .then(res => {
+                if (res.data.message === "invalid token") {
+                    message.error("登录token已失效，请重新登录");
+                    setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 1000);
+                }
+            })
+           .catch(error => {
+                console.log(error);
+            });
+        setReloadData(!reloadData);
         window.location.href = '/menu?search=' + item;
     }
 
@@ -80,7 +123,7 @@ const Searchpage = () => {
                 header={<div><h2>搜索历史</h2></div>}
                 style = {{marginTop: '5%', width: '40%', marginLeft: '10%'}}
                 bordered
-                dataSource={data}
+                dataSource={history}
                 renderItem={(item) => (
                     <List.Item>
                         <List.Item.Meta

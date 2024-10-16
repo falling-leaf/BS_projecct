@@ -63,8 +63,13 @@ public class UserController {
         // 检查邮箱格式
         if (!isValidEmail(email))
             return ResponseEntity.ok("邮箱格式有误");
-        if (!JwtUtil.paraJWT2code(jwt_value).equals(Encoder.sha256(code)))
-            return ResponseEntity.ok("验证码错误");
+        try {
+            if (!JwtUtil.paraJWT2code(jwt_value).equals(Encoder.sha256(code))) {
+                return ResponseEntity.ok("验证码错误");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok("验证码已失效，请重新发送");
+        }
 
         User user = new User(0, account, Encoder.sha256(password), email);
         userService.register(user);
@@ -76,10 +81,6 @@ public class UserController {
     @GetMapping("/send_email")
     public ResponseEntity<APIResponse> send_email(@RequestParam String email) {
         User res_user = userService.check_user_by_email(email);
-//        if (res_user == null) {   // 邮箱不存在
-//            APIResponse response = new APIResponse("邮箱尚未被注册，请注册新账号", 200);
-//            return ResponseEntity.ok(response);
-//        } else {  // 发送验证码
         if (!isValidEmail(email)){
             return ResponseEntity.ok(new APIResponse("邮箱格式不正确，请重新输入", 200));
         } else {
@@ -94,13 +95,18 @@ public class UserController {
     @PostMapping("/reset_password")
     public ResponseEntity<String> reset_password(@RequestParam String account, @RequestParam String new_password, @RequestParam String email, @RequestParam String code, @RequestParam String jwt_value) {
         User res_user = userService.find_user_by_account(account);
+        try {
+            if (!JwtUtil.paraJWT2code(jwt_value).equals(Encoder.sha256(code))) {
+                return ResponseEntity.ok("验证码错误");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.ok("验证码已失效，请重新发送");
+        }
         if (res_user == null)
             return ResponseEntity.ok("用户名不存在");
         else if (!res_user.getEmail().equals(email))
             return ResponseEntity.ok("邮箱与帐户名不匹配");
-        else if (!JwtUtil.paraJWT2code(jwt_value).equals(Encoder.sha256(code))) {
-            return ResponseEntity.ok("验证码错误");
-        } else if (new_password.length() < 6)
+        else if (new_password.length() < 6)
             return ResponseEntity.ok("新密码过短");
         else {
             userService.update_password_by_account(account, Encoder.sha256(new_password));

@@ -9,7 +9,7 @@ create table if not exists User (
 
 create table if not exists History (
     id int primary key auto_increment,
-    account varchar(128) not null unique,
+    account varchar(128) not null,
     search_input varchar(128) not null,
-    search_time DATETIME not null unique
+    search_time DATETIME not null
 );
