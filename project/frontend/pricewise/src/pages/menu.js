@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from'react-router-dom';
 import { AppstoreOutlined } from '@ant-design/icons';
-import { Input, Menu, Typography } from 'antd';
+import { Input, Menu } from 'antd';
 import ItemList from '../components/itemlist.js';
+import TopPart from '../components/toppart.js';
 import logo from '../assets/images/logo.png'
 
-const { Text } = Typography;
 const { Search } = Input;
 
 const submenu = [
@@ -22,7 +22,7 @@ const submenu = [
 ];
 
 const Menupage = () => {
-  const prim_items = [
+  const prim_data = [
     {
       id: '1',
       name: '物品1',
@@ -96,20 +96,15 @@ const Menupage = () => {
       text: '物品2的简介'
     }
   ];
-  const [items, setItems] = useState(prim_items);
+  const [data, setData] = useState(prim_data);
   const [searchValue, setSearchValue] = useState('');
   const [newSearchValue, setNewSearchValue] = useState('');
   const [current, setCurrent] = useState('jingdong');
-  const [filteredItems, setFilteredItems] = useState(items.filter(item => item.label === current));
-  // const filteredItems = items.filter(item => item.label === current);
+  const [filteredData, setFilteredData] = useState(data.filter(item => item.label === current));
 
-  // 当current或items改变时，filteredItems也要改变
-  // useEffect(() => {
-  //   setFilteredItems(memorizedItems.filter(item => item.label === current));
-  // }, [current, memorizedItems]);
   useEffect(() => {
-    setFilteredItems(items.filter(item => item.label === current));
-  }, [current, items]);
+    setFilteredData(data.filter(item => item.label === current));
+  }, [current, data]);
 
   const Onmounted = () => {
     URLcomponent();
@@ -140,21 +135,18 @@ const Menupage = () => {
   };
   return (
     <div>
-      <div>
-            <Text strong style={{fontSize: '24px'}}>查询【{Onmounted()}】的结果</Text>
-            <Text strong style={{fontSize: '24px', float: 'right'}}>XXX, 欢迎您！</Text>
-      </div>
+      <TopPart />
       <div style = {{textAlign: 'center'}}>
         <Search 
               placeholder="请输入商品名称" 
               size = "large" 
-              style = {{width: '50%'}}
+              style = {{width: '50%', marginTop: '2%'}}
               onChange = {handleSearchChange}
               onSearch={handleSearch} enterButton />
       </div>
       <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={submenu} style = {{marginTop: '3%'}} />
       <br />
-      <ItemList items={filteredItems} />
+      <ItemList items={filteredData} />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Image, Typography } from "antd";
+import { LeftOutlined } from "@ant-design/icons";
 import logo from '../assets/images/logo.png'
 
 const { Text } = Typography;
@@ -29,11 +30,15 @@ const Detail = () => {
         }, [prim_target]);
         return target.name;
     };
+
+    const onBack = () => {
+        window.history.back();
+    };
     
     return (
         <div>
             <div>
-                <Text strong>返回</Text>
+                <LeftOutlined onClick={onBack}/>
             </div>
             <div>
                 <Image src={target.image} alt={target.name} style={{ width: "20%", height: "20%" }} />

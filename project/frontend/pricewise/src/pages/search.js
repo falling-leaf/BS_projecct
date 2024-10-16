@@ -1,44 +1,32 @@
 import React, { useState } from 'react';
-import { Input, message, Typography, List, Dropdown, Space, Modal } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
-import './search.css';
+import { Input, message, List} from 'antd';
+import TopPart from '../components/toppart';
 const { Search } = Input;
-const { Text } = Typography;
 
 
 
 const Searchpage = () => {  
     const [searchValue, setSearchValue] = useState(''); 
-    const [isLogoutOpen, setIsLogoutOpen] = useState(false);
     const [data, setData] = useState(['商品1', '商品2', '商品3', '商品4', '商品5', '商品6', '商品7', '商品8', '商品9', '商品10']);
+    const [history, setHistory] = useState([]);
 
-    const handleShowLogout = () => {
-        setIsLogoutOpen(true);
-    }
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        setIsLogoutOpen(false);
-        window.location.href = '/login';
-    }
-
-    const items = [
-        {
-            key: '1',
-            label: '欢迎您，' + (localStorage.getItem('username') === null ? '游客' : localStorage.getItem('username')),
-        },
-        {
-            key: '2',
-            label: '个人中心',
-        },
-        {
-          key: '3',
-          label: (
-            <div onClick={handleShowLogout} style={{color: 'red'}}>退出登录</div>
-          ),
-        },
-      ];
-    
+    UseEffect(() => {
+        // 获取历史记录
+        const getHistory = async () => {
+            const res = await axios.get('/user/get_history', {
+                params: {
+                    jwt_value: localStorage.getItem('jwt_value')
+                }
+            })
+            .then(res => {
+                setHistory(res.data.history);
+            })
+           .catch(error => {
+                console.log(error);
+            });
+        }
+        getHistory();
+    }, [])
 
     const handleSearch = () => {
         if (searchValue === '') {
@@ -63,33 +51,7 @@ const Searchpage = () => {
 
   return (
     <div style={{height: "100vh"}}>
-        <Modal
-            title="确认退出登录"
-            open={isLogoutOpen}
-            onOk={handleLogout}
-            onCancel={() => setIsLogoutOpen(false)}
-            okText="确认"
-            cancelText="取消"
-        >
-            你确定要退出登录吗？
-        </Modal>
-        <div className='search-header'>
-            <Text strong style={{fontSize: '24px'}}>price-wise:搜索</Text>
-            <div style={{fontSize: '30px', float: 'right', marginRight: "1%"}}>
-                <Dropdown
-                    trigger='click'
-                    menu={{
-                        items,
-                    }}
-                    >
-                    <div onClick={(e) => e.preventDefault()}>
-                        <Space>
-                        <UserOutlined />
-                        </Space>
-                    </div>
-                </Dropdown>
-            </div>
-        </div>
+        <TopPart />
         <div style = {{textAlign: 'center', marginTop: '5%'}}>
             <h2>查询商品，发现更多好物：</h2>
             <p />
