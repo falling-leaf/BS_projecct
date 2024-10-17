@@ -9,9 +9,10 @@ const ItemCard = ({item}) => {
   };
   return (
     <div className="item-card">
-      <Card title={item.name} style={{ width: "100%" }} onClick={onClick}>
-        <img src={item.image} alt={item.name} style={{ width: "100%" }} />
-        <p>{item.text}</p>
+      <Card onClick={onClick} style = {{ height: "100%"}}>
+        <img src={item.image} alt={item.item_name} style={{ width: "50%", height: "50%" }} />
+        <p>{item.item_name}</p>
+        <p>{item.shop_name}</p>
         <div style={{ color: 'red' }}>￥{item.price}</div>
       </Card>
     </div>

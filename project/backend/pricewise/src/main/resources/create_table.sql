@@ -13,3 +13,13 @@ create table if not exists History (
     search_input varchar(128) not null,
     search_time DATETIME not null
 );
+
+create table if not exists Item (
+    id int primary key auto_increment,
+    item_name varchar(512) not null,
+    price double not null,
+    shop_name varchar(512),
+    item_time DATETIME not null,
+    platform varchar(128) not null,
+    image varchar(256)
+);

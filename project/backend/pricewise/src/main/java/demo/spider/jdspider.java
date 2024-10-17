@@ -1,61 +1,62 @@
 package demo.spider;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import demo.entity.Item;
+
+import java.util.List;
 
 
 public class jdspider {
 
-    static String url = "https://search.jd.com/Search?keyword=%E9%A4%90%E5%B7%BE%E7%BA%B8";
+    static String url = "https://search.jd.com/Search?keyword=";
+    static Map<String, String> cookies = new HashMap<String, String>();
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-
-        Map<String, String> cookies = new HashMap<String, String>();
-//        Map<String, String> headers = new HashMap<>();
-//        headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0");
-//        headers.put("accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
-//        headers.put("referer", "https://qq.jd.com/");
-//        headers.put("sec-fetch-dest", "document");
-//        headers.put("sec-fetch-mode", "navigate");
-//        headers.put("sec-fetch-site", "same-site");
-//        headers.put("sec-fetch-user", "?1");
-//        headers.put("upgrade-insecure-requests", "1");
-
-        cookies.put("thor", "37B4D61543EED1286AD903B1BE3347B2112FCB3B1B7A5BC33EDCEFA3EF70FDE7F8A0F3C12A5A8D08B676333F29C411E840BAFC6646D81A47C55227A16726F6FB98F6E1AC08EDBBA5442073BA6EC821C1FC242FBD7045D970A25AB6BF49A17E355EF3F84DD2A0FC25588D90CBE0B3C0913A874DE0273DF30EC204D5F72EF168312D383F03AD15F725CF8C4F640EDD079970E9ECDB02C18C6C213A5CA535662797");
-
-//        Connection connection = Jsoup.connect(url)
-//                .headers(headers)
-//                .cookies(cookies)
-//                .ignoreContentType(true) // 忽略内容类型，以防 JSON 返回
-//                .timeout(10000); // 设置超时
-
-        // Document document = connection.get();
-
-        Document document = Jsoup.connect(url).cookies(cookies).get();
-        System.out.println(document);
-
+    public List<Item> get_jdspider(String input) throws IOException {
+        List<Item> res_item = new ArrayList<>();
+        // 这里需要定时修改cookie
+        cookies.put("thor", "37B4D61543EED1286AD903B1BE3347B2112FCB3B1B7A5BC33EDCEFA3EF70FDE784FFEFD7429DD401E10276FA572450EBDF615331827FCE275286EB762747FAE8CAD59BD5B0387A83AC87131C975A491E003486D29F1BFA2B2FE6A19FB167639781DEC3452E87681F85197B6328217F2C5D3E1332905294C267BACF822AEC97678C1C74C65C23CA0C30E998C559B1D2F8CCAFD0B8B2AA3CE67B4BE608A4FB79C4");
+        String whole_url = url + input;
+        Document document = Jsoup.connect(whole_url).cookies(cookies).get();
+        LocalDateTime time = LocalDateTime.now();
         // 通过class获取ul标签
         Elements ul = document.getElementsByClass("gl-warp clearfix");
         // 获取ul标签下的所有li标签
         Elements liList = ul.select("li");
-//        for (Element element : liList) {
+        for (Element element : liList) {
+            Element pictElement = element.getElementsByTag("img").first();
+            String pict = pictElement != null ? pictElement.attr("data-lazy-img") : "unknown";
+            Element nameElement = element.getElementsByClass("p-name").first();
+            Element subnameElement = nameElement != null ? nameElement.getElementsByTag("em").first() : null;
+            String name = subnameElement != null ? subnameElement.text() : "unknown";
+            Element priceElement = element.getElementsByClass("p-price").first();
+            String price = priceElement != null ? priceElement.text().substring(1) : "unknown";
+            Element shopNameElement = element.getElementsByClass("p-shop").first();
+            String shopName = shopNameElement != null ? shopNameElement.text() : "unknown";
+            if (name.equals("unknown") || price.equals("unknown") || shopName.equals("unknown") || pict.equals("unknown"))
+                continue;
+            Item item = new Item();
+            item.setItem_name(name);
+            item.setPrice(Double.parseDouble(price));
+            item.setShop_name(shopName);
+            item.setItem_time(time);
+            item.setPlatform("jingdong");
+            item.setImage(pict);
+            res_item.add(item);
 //            System.out.println("------------------");
-//            String pict = element.getElementsByTag("img").first().attr("data-lazy-img");
-//            String price = element.getElementsByClass("p-price").first().text();
-//            String shopName = element.getElementsByClass("p-shop").first().text();
 //            System.out.println(pict);
+//            System.out.println(name);
 //            System.out.println(price);
 //            System.out.println(shopName);
-//            System.out.println(element);
-//            System.out.println();
-//        }
+        }
+        return res_item;
     }
 }

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from'react-router-dom';
-import { AppstoreOutlined } from '@ant-design/icons';
-import { Input, Menu } from 'antd';
+import { AppstoreOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Input, Menu, Spin } from 'antd';
+import axios from 'axios';
 import ItemList from '../components/itemlist.js';
 import TopPart from '../components/toppart.js';
-import logo from '../assets/images/logo.png'
 
 const { Search } = Input;
 
@@ -15,115 +15,59 @@ const submenu = [
     icon: <AppstoreOutlined />,
   },
   {
-    label: '淘宝搜索结果',
-    key: 'taobao',
+    label: '唯品会搜索结果',
+    key: 'vip',
     icon: <AppstoreOutlined />,
   }
 ];
 
 const Menupage = () => {
-  const prim_data = [
-    {
-      id: '1',
-      name: '物品1',
-      price: '1000',
-      image: logo,
-      label: 'jingdong',
-      text: '物品1的简介'
-    },
-    {
-      id: '2',
-      name: '物品1',
-      price: '1000',
-      image: logo,
-      label: 'jingdong',
-      text: '物品1的简介'
-    },
-    {
-      id: '3',
-      name: '物品1',
-      price: '1000',
-      image: logo,
-      label: 'jingdong',
-      text: '物品1的简介'
-    },
-    {
-      id: '4',
-      name: '物品1',
-      price: '1000',
-      image: logo,
-      label: 'jingdong',
-      text: '物品1的简介'
-    },
-    {
-      id: '5',
-      name: '物品1',
-      price: '1000',
-      image: logo,
-      label: 'jingdong',
-      text: '物品1的简介'
-    },
-    {
-      id: '6',
-      name: '物品1',
-      price: '1000',
-      image: logo,
-      label: 'jingdong',
-      text: '物品1的简介'
-    },
-    {
-      id: '7',
-      name: '物品1',
-      price: '1000',
-      image: logo,
-      label: 'jingdong',
-      text: '物品1的简介'
-    },
-    {
-      id: '8',
-      name: '物品1',
-      price: '1000',
-      image: logo,
-      label: 'jingdong',
-      text: '物品1的简介'
-    },
-    {
-      id: '9',
-      name: '物品2',
-      price: '1000',
-      image: logo,
-      label: 'taobao',
-      text: '物品2的简介'
-    }
-  ];
-  const [data, setData] = useState(prim_data);
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [newSearchValue, setNewSearchValue] = useState('');
   const [current, setCurrent] = useState('jingdong');
-  const [filteredData, setFilteredData] = useState(data.filter(item => item.label === current));
+  const [filteredData, setFilteredData] = useState(data.filter(item => item.platform === current));
+
+  const location = useLocation();
 
   useEffect(() => {
-    setFilteredData(data.filter(item => item.label === current));
+    setFilteredData(data.filter(item => item.platform === current));
   }, [current, data]);
 
-  const Onmounted = () => {
-    URLcomponent();
-    return searchValue;
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      const query = new URLSearchParams(location.search);
+      const searching = query.get('search');
+      await axios.get('/item/insert', {
+          params: {
+              input: searching
+          }
+      })
+      .then(res => {
+        console.log(res.data.payload);
+        setData(res.data.payload);
+      })
+      .catch(error => {
+          console.log(error);
+      });
+      setIsLoading(false);
+      console.log()
+    };
+    fetchData();
+  }, []);
+
   const onClick = (e) => {
     console.log('click ', e);
     setCurrent(e.key);
   };
 
-  const URLcomponent = () => {
-    const location = useLocation();
+  useEffect(() => {
     const query = new URLSearchParams(location.search);
     const searchValue = query.get('search');
-    useEffect(() => {
-      setSearchValue(searchValue);
-    }, [searchValue]);
-    return searchValue;
-  };
+    setSearchValue(searchValue);
+  }, []);
 
   const handleSearchChange = (e) => {
     setNewSearchValue(e.target.value);
@@ -144,9 +88,10 @@ const Menupage = () => {
               onChange = {handleSearchChange}
               onSearch={handleSearch} enterButton />
       </div>
-      <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={submenu} style = {{marginTop: '3%'}} />
+      <div>正在搜索：{searchValue}</div>
+      <Menu onClick={onClick} selectedKeys={[current]} mode="horizontal" items={submenu} />
       <br />
-      <ItemList items={filteredData} />
+      <div> {isLoading ? <Spin indicator={<LoadingOutlined spin />} size="large" /> : <ItemList items={filteredData} />} </div>
     </div>
   );
 };

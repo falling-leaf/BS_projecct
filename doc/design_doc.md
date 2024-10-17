@@ -146,12 +146,10 @@
 |   字段名   |     类型     |       描述       |       备注       |
 | :---------: | :-----------: | :--------------: | :--------------: |
 |     id     |      int      |     商品的id     | 主键，非空，自增 |
-|    name    | varchar(128) |     商品名称     |       非空       |
-|    price    | decimal(10,2) |     商品价格     |       非空       |
-| update_time |   datetime   |   商品更新时间   |       非空       |
-|  resource  | varchar(128) |   商品来源平台   |       非空       |
-|    size    | varchar(128) |     商品规格     |                  |
-| description | varchar(512) |     商品描述     |                  |
+|    item_name    | varchar(512) |     商品名称     |       非空       |
+|    price    | double |     商品价格     |       非空       |
+| item_time |   datetime   |   商品更新时间   |       非空       |
+|  platform  | varchar(128) |   商品来源平台   |       非空       |
 |    image    | varchar(256) |   商品图片地址   |                  |
 |  linecode  | varchar(256) |    商品条形码    |                  |
 |  category  | varchar(1024) | 商品多级品类路径 |                  |
@@ -163,8 +161,8 @@
 |   字段名   |   类型   |     描述     |       备注       |
 | :---------: | :------: | :----------: | :--------------: |
 |     id     |   int   | 搜索历史的id | 主键，非空，自增 |
-|   user_id   |   int   |   用户的id   |       非空       |
-|   item_id   |   int   |   商品的id   |       非空       |
+|   account   |   varchar(128)   |   用户名   |       非空       |
+|   search_input   |   varchar(128)   |   搜索内容   |       非空       |
 | search_time | datetime |   搜索时间   |       非空       |
 
 ### 五、系统接口设计
