@@ -15,7 +15,7 @@ const Searchpage = () => {
     useEffect(() => {
         // 获取历史记录
         const getHistory = async () => {
-            const res = await axios.get('/history/get', {
+            await axios.get('/history/get', {
                 params: {
                     jwt_value: localStorage.getItem('token')
                 }
@@ -81,7 +81,7 @@ const Searchpage = () => {
                 console.log(error);
             });
         setReloadData(!reloadData);
-        window.location.href = '/menu?search=' + item;
+        window.location.href = '/menu?search=' + encodeURIComponent(item);
     }
 
     const handleInputChange = (e) => {

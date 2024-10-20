@@ -55,7 +55,6 @@ public class vipspider {
         LocalDateTime time = LocalDateTime.now();
 
         Elements all_items = document.getElementsByClass("c-goods-item");
-        System.out.println(all_items);
         for (Element element : all_items) {
             String pict = element.select(".c-goods-item__img img.lazy").attr("data-original");
             if (pict.isEmpty()) {

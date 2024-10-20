@@ -17,4 +17,8 @@ public class ItemService  {
     public void insertItem(Item item) {
         itemMapper.InsertNewItem(item);
     }
+
+    public List<Item> selectItem(String name) {
+        return itemMapper.selectItemByName(name);
+    }
 }

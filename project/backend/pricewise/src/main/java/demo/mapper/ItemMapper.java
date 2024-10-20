@@ -18,4 +18,7 @@ public interface ItemMapper {
     @Insert("insert into Item(item_name, price, shop_name, item_time, platform, image) values(#{item_name}, #{price}, #{shop_name}, #{item_time}, #{platform}, #{image})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void InsertNewItem(Item item);
+
+    @Select("select * from Item where item_name = #{name}")
+    List<Item> selectItemByName(@Param("name") String name);
 }
