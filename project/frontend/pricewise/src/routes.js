@@ -7,6 +7,7 @@ import Forget from './pages/forget.js';
 import Menupage from './pages/menu.js';
 import Searchpage from './pages/search.js';
 import Detail from './pages/detail.js';
+import MyDiscount from './pages/mydiscount.js';
 
 const AppRoutes = () => {
     return (
@@ -19,6 +20,7 @@ const AppRoutes = () => {
           <Route path="/menu" element={<Menupage />} />
           <Route path="/search" element={<Searchpage />} />
           <Route path="/detail" element={<Detail />} />
+          <Route path="/mydiscount" element={<MyDiscount />} />
           <Route path="*" element={<Login />} />
         </Routes>
       </Router>

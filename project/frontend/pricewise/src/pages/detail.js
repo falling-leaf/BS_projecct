@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { LeftOutlined } from "@ant-design/icons";
+import { Descriptions } from "antd";
 import TopPart from "../components/toppart";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 const Detail = () => {
     const [data, setData] = useState([{id: null, item_name: null, price: null, platform: null, shop_name: null, image: null}]);
@@ -11,16 +12,6 @@ const Detail = () => {
     const [latest_data, setLatest_Data] = useState([]);
 
     const location = useLocation();
-
-    const [dimensions, setDimensions] = useState({ width: window.innerWidth, height: window.innerHeight });
-  
-    useEffect(() => {
-        const handleResize = () => {
-            setDimensions({ width: window.innerWidth * 0.8, height: window.innerWidth * 0.4 });
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -63,20 +54,19 @@ const Detail = () => {
                     <img src = {latest_data.image} alt = {item_name} style = {{width: '100%', height: '100%'}} />
                 </div>
                 <div>
-                    <div>商品名称：{item_name}</div>
-                    <p />
-                    <div>商品最新价格：{latest_data.price}</div>
-                    <p />
-                    <div>商品来源：{latest_data.platform === null ? '暂无' : latest_data.platform}</div>
-                    <p />
-                    <div>商品商家：{latest_data.shop_name === null ? '暂无' : latest_data.shop_name}</div>
+                    <Descriptions title="商品信息" layout="vertical" bordered="true" style={{width: '80%', marginLeft: '5%'}}>
+                        <Descriptions.Item label="商品名称">{item_name}</Descriptions.Item>
+                        <Descriptions.Item label="商品最新价格">{latest_data.price}</Descriptions.Item>
+                        <Descriptions.Item label="商品来源">{latest_data.platform === null ? '暂无' : latest_data.platform}</Descriptions.Item>
+                        <Descriptions.Item label="商品商家">{latest_data.shop_name === null ? '暂无' : latest_data.shop_name}</Descriptions.Item>
+                    </Descriptions>
                 </div>
             </div>
             <div style = {{display: 'flex', justifyContent: 'center', margin: '1%'}}>
             价格走势图
             </div>
-            <div style = {{marginTop: '1%', width: '80%', height: '300px'}}>
-                <LineChart width={dimensions.width} height={dimensions.height} data={data.reverse()}>
+            <ResponsiveContainer width="80%" height={400} style={{display: 'flex', justifyContent: 'center', margin: '1%'}}>
+                <LineChart data={data}>
                     <XAxis dataKey="item_time" />
                     <YAxis />
                     <CartesianGrid strokeDasharray="3 3" />
@@ -84,7 +74,7 @@ const Detail = () => {
                     <Legend />
                     <Line type="monotone" dataKey="price" stroke="#8884d8" activeDot={{ r: 8 }} />
                 </LineChart>
-            </div>
+            </ResponsiveContainer>
         </div>
     );
 };

@@ -53,13 +53,14 @@ const Searchpage = () => {
                         setTimeout(() => {
                             window.location.href = '/login';
                         }, 1000);
+                    } else {
+                        setReloadData(!reloadData);
+                        window.location.href = '/menu?search=' + searchValue;
                     }
                 })
                .catch(error => {
                     console.log(error);
                 });
-            setReloadData(!reloadData);
-            window.location.href = '/menu?search=' + searchValue;
         }
     }
 
@@ -106,7 +107,7 @@ const Searchpage = () => {
             onSearch={handleSearch} enterButton />
         </div>
         <div style={{ display: 'flex' }}>
-            <List
+            {/* <List
                 header={<div><h2>热门商品</h2></div>}
                 style = {{marginLeft: '5%', marginTop: '5%', width: '40%'}}
                 bordered
@@ -118,10 +119,10 @@ const Searchpage = () => {
                         />
                     </List.Item>
                 )}
-            />
+            /> */}
             <List
                 header={<div><h2>搜索历史</h2></div>}
-                style = {{marginTop: '5%', width: '40%', marginLeft: '10%'}}
+                style = {{marginTop: '5%', width: '100%', margin: "5% 20%", height: "80vh"}}
                 bordered
                 dataSource={history}
                 renderItem={(item) => (

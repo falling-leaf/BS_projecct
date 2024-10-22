@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Card, Button, Modal } from 'antd';
+import { Card, Button, Modal, message } from 'antd';
+import axios from 'axios';
 
 const ItemCard = ({item}) => {
 
@@ -7,7 +8,30 @@ const ItemCard = ({item}) => {
   const [discountName, setDiscountName] = useState("");
 
   const onSetDiscount = () => {
-    console.log("set discount");
+    axios.post('/discount/insert', null, {
+      params: {
+          jwt_value: localStorage.getItem('token'),
+          item_name: item.item_name,
+          price: Number(item.price),
+          item_time: item.item_time
+      }
+  })
+  .then(res => {
+    if (res.data.message === "ok") {
+      message.success("设置成功");
+      setShowMedal(false);
+    } else if (res.data.message === "invalid token"){
+        message.error("登录token已失效，请重新登录");
+        setTimeout(() => {
+            window.location.href = '/login';
+        }, 1000);
+    } else {
+      message.error(res.data.message);
+    }
+  })
+  .catch(error => {
+      console.log(error);
+  });
   };
 
   const onShowMedal = () => {

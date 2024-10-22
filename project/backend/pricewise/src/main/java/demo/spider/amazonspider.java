@@ -44,16 +44,16 @@ public class amazonspider {
             String price = decimal + fraction;
             double item_price = Double.parseDouble(price);
             if (currency.equals("US$"))
-                item_price *=  7.1023;
-            System.out.println(pict);
-            System.out.println(name);
-            System.out.println(currency);
-            System.out.println(item_price);
+                item_price *= 7.1023;
+//            System.out.println(pict);
+//            System.out.println(name);
+//            System.out.println(currency);
+//            System.out.println(item_price);
             Item item = new Item();
             item.setItem_name(name);
             item.setPrice(item_price);
             item.setItem_time(time);
-            item.setPlatform("amazon");
+            item.setPlatform("亚马逊");
             item.setImage(pict);
             res_item.add(item);
         }

@@ -38,17 +38,17 @@ public class jdspider {
             Element subnameElement = nameElement != null ? nameElement.getElementsByTag("em").first() : null;
             String name = subnameElement != null ? subnameElement.text() : "unknown";
             Element priceElement = element.getElementsByClass("p-price").first();
-            String price = priceElement != null ? priceElement.text().substring(1) : "unknown";
+            String price = priceElement != null ? priceElement.text().substring(1).replaceAll("[^\\d.]", "") : "unknown";
             Element shopNameElement = element.getElementsByClass("p-shop").first();
             String shopName = shopNameElement != null ? shopNameElement.text() : "unknown";
-            if (name.equals("unknown") || price.equals("unknown") || shopName.equals("unknown") || pict.equals("unknown"))
+            if (name.equals("unknown") || price.equals("unknown") || shopName.equals("unknown") || pict.equals("unknown") || price.isEmpty())
                 continue;
             Item item = new Item();
             item.setItem_name(name);
             item.setPrice(Double.parseDouble(price));
             item.setShop_name(shopName);
             item.setItem_time(time);
-            item.setPlatform("jingdong");
+            item.setPlatform("京东");
             item.setImage(pict);
             res_item.add(item);
 //            System.out.println("------------------");

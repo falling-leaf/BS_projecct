@@ -12,6 +12,10 @@ const TopPart = () => {
         setIsLogoutOpen(true);
     }
 
+    const handleMyDiscount = () => {
+        window.location.href = '/mydiscount';
+    }
+
     const handleLogout = () => {
         localStorage.removeItem('token');
         setIsLogoutOpen(false);
@@ -25,7 +29,9 @@ const TopPart = () => {
         },
         {
             key: '2',
-            label: '个人中心',
+            label: (
+                <div onClick={handleMyDiscount}>我的关注</div>
+            ),
         },
         {
           key: '3',
@@ -47,7 +53,7 @@ const TopPart = () => {
             你确定要退出登录吗？
         </Modal>
         <div className='search-header'>
-            <Text strong style={{fontSize: '24px'}}>price-wise:搜索</Text>
+            <Text strong style={{fontSize: '24px'}}>price-wise</Text>
             <div style={{fontSize: '30px', float: 'right', marginRight: "1%"}}>
                 <Dropdown
                     trigger='click'

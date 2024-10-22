@@ -23,3 +23,11 @@ create table if not exists Item (
     platform varchar(128) not null,
     image varchar(256)
 );
+
+create table if not exists Discount (
+    id int primary key auto_increment,
+    account varchar(128) not null,
+    item_name varchar(512) not null,
+    price double not null,
+    item_time DATETIME not null
+);

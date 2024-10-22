@@ -11,17 +11,17 @@ const { Search } = Input;
 const submenu = [
   {
     label: '京东搜索结果',
-    key: 'jingdong',
+    key: '京东',
     icon: <AppstoreOutlined />,
   },
   {
     label: '唯品会搜索结果',
-    key: 'vip',
+    key: '唯品会',
     icon: <AppstoreOutlined />,
   },
   {
     label: '亚马逊搜索结果',
-    key: 'amazon',
+    key: '亚马逊',
     icon: <AppstoreOutlined />,
   }
 ];
@@ -31,7 +31,7 @@ const Menupage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [newSearchValue, setNewSearchValue] = useState('');
-  const [current, setCurrent] = useState('jingdong');
+  const [current, setCurrent] = useState('京东');
   const [filteredData, setFilteredData] = useState([]);
 
   const location = useLocation();
@@ -48,6 +48,12 @@ const Menupage = () => {
           }
       })
       .then(res => {
+        if (res.data.message !== "get successfully") {
+          message.error(res.data.message);
+          setTimeout(() => {
+              window.location.href = '/search';
+          }, 1000);
+        }
         console.log(res.data.payload);
         console.log(res.data.message);
         setData(res.data.payload);

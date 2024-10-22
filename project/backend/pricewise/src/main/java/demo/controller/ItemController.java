@@ -42,6 +42,7 @@ public class ItemController {
                 tmp_item_set = tmp_item_set.subList(0, 40);
             item_set.addAll(tmp_item_set);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.ok(new APIResponse("fail on jdspider", 200));
         }
         try {

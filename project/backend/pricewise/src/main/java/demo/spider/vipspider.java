@@ -71,7 +71,7 @@ public class vipspider {
             item.setItem_name(name);
             item.setPrice(Double.parseDouble(price));
             item.setItem_time(time);
-            item.setPlatform("vip");
+            item.setPlatform("唯品会");
             item.setImage(pict);
             res_item.add(item);
 //            System.out.println("------------------");
