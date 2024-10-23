@@ -12,6 +12,9 @@ public interface DiscountMapper {
     @Select("select * from Discount where account = #{account}")
     List<Discount> findDiscountByAccount(@Param("account") String account);
 
+    @Select ("select * from Discount where account = #{account} and item_name = #{item_name}")
+    List<Discount> findDiscountByAccountandName(@Param("account") String account, @Param("item_name") String item_name);
+
     @Insert("insert into Discount(account, item_name, price, item_time) values(#{account}, #{item_name}, #{price}, #{item_time})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertNewDiscount(Discount discount);

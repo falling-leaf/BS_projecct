@@ -25,4 +25,8 @@ public class DiscountService {
     public void deleteDiscount(String account, String item_name) {
         discountMapper.deleteDiscount(account, item_name);
     }
+
+    public List<Discount> checkDiscount(String account, String item_name) {
+        return discountMapper.findDiscountByAccountandName(account, item_name);
+    }
 }

@@ -33,6 +33,8 @@ public class DiscountController {
         }
 
         try {
+            if (!discountService.checkDiscount(account, item_name).isEmpty())
+                return ResponseEntity.ok(new APIResponse("您已订阅该商品", 200));
             Discount discount = new Discount();
             discount.setAccount(account);
             discount.setPrice(price);
