@@ -14,14 +14,19 @@ const submenu = [
     key: '京东',
     icon: <AppstoreOutlined />,
   },
-  {
-    label: '唯品会搜索结果',
-    key: '唯品会',
-    icon: <AppstoreOutlined />,
-  },
+  // {
+  //   label: '唯品会搜索结果',
+  //   key: '唯品会',
+  //   icon: <AppstoreOutlined />,
+  // },
   {
     label: '亚马逊搜索结果',
     key: '亚马逊',
+    icon: <AppstoreOutlined />,
+  },
+  {
+    label: '阿里巴巴搜索结果',
+    key: '阿里巴巴',
     icon: <AppstoreOutlined />,
   }
 ];

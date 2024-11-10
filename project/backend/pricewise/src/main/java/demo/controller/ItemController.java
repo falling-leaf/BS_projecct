@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import demo.spider.jdspider;
 import demo.spider.vipspider;
 import demo.spider.amazonspider;
+import demo.spider.alispider;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -32,6 +33,7 @@ public class ItemController {
         jdspider en_jdspider = new jdspider();
         vipspider en_vipspider = new vipspider();
         amazonspider en_amazonspider = new amazonspider();
+        alispider en_alispider = new alispider();
         List<Item> item_set = new ArrayList<>();
         List<Item> tmp_item_set = new ArrayList<>();
         System.out.println("ready to start creeping.");
@@ -45,14 +47,23 @@ public class ItemController {
             System.out.println(e.getMessage());
             return ResponseEntity.ok(new APIResponse("fail on jdspider", 200));
         }
+//        try {
+//            tmp_item_set = en_vipspider.get_vipspider(input);
+//            // 为了性能，只截取前40条
+//            if (tmp_item_set.size() >= 40)
+//                tmp_item_set = tmp_item_set.subList(0, 40);
+//            item_set.addAll(tmp_item_set);
+//        } catch (Exception e) {
+//            return ResponseEntity.ok(new APIResponse("fail on vipspider", 200));
+//        }
         try {
-            tmp_item_set = en_vipspider.get_vipspider(input);
+            tmp_item_set = en_alispider.get_alispider(input);
             // 为了性能，只截取前40条
             if (tmp_item_set.size() >= 40)
                 tmp_item_set = tmp_item_set.subList(0, 40);
             item_set.addAll(tmp_item_set);
         } catch (Exception e) {
-            return ResponseEntity.ok(new APIResponse("fail on vipspider", 200));
+            return ResponseEntity.ok(new APIResponse("fail on alispider", 200));
         }
         try {
             tmp_item_set = en_amazonspider.get_amazonspider(input);

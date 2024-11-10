@@ -28,7 +28,6 @@ public class amazonspider {
         LocalDateTime time = LocalDateTime.now();
         Elements res = document.select("[data-component-type='s-search-result']");
         for (Element element : res) {
-            System.out.println("-------------");
             Element pictElement = element.getElementsByClass("s-image").first();
             String pict = pictElement != null ? pictElement.attr("src") : "unknown";
             Element nameElement = element.getElementsByClass("a-size-medium a-color-base a-text-normal").first();
@@ -49,6 +48,8 @@ public class amazonspider {
 //            System.out.println(name);
 //            System.out.println(currency);
 //            System.out.println(item_price);
+            long round = Math.round(item_price * 100);
+            item_price = round / 100.0;
             Item item = new Item();
             item.setItem_name(name);
             item.setPrice(item_price);
@@ -57,7 +58,6 @@ public class amazonspider {
             item.setImage(pict);
             res_item.add(item);
         }
-        System.out.println(res_item);
         return res_item;
     }
 }
