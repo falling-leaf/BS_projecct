@@ -122,15 +122,63 @@
 
 ![1728200550377](image/design_doc/1728200550377.png)
 
-### 四、数据库设计与E-R图
+#### 4.4 功能IPO图
 
-#### 4.1 概念结构设计（E-R图）
+本系统功能IPO图如下：
+
+1. 用户注册：
+
+![1731497262273](image/design_doc/1731497262273.png)
+
+2. 用户重置密码：
+
+![1731497271348](image/design_doc/1731497271348.png)
+
+3. 查询商品：
+
+![1731497282366](image/design_doc/1731497282366.png)
+
+4. 设置降价提醒：
+
+![1731497292109](image/design_doc/1731497292109.png)
+
+5. 取消降价提醒：
+
+![1731497300487](image/design_doc/1731497300487.png)
+
+#### 4.5 用例图
+
+本系统用例图如下：
+
+![1731497642086](image/design_doc/1731497642086.png)
+
+### 五、数据库设计与E-R图
+
+#### 5.1 概念结构设计
+
+##### 5.1.1 用户表
+
+![1731498248926](image/design_doc/1731498248926.png)
+
+##### 5.1.2 商品表
+
+![1731498257844](image/design_doc/1731498257844.png)
+
+##### 5.1.3 搜索历史表
+
+![1731498254252](image/design_doc/1731498254252.png)
+
+##### 5.1.4 降价提醒设置表
+
+![1731498262008](image/design_doc/1731498262008.png)
+
+##### 5.1.5 E-R图
 
 本项目的E-R图如下：
 
 ![1729607529981](image/design_doc/1729607529981.png)
 
-#### 4.2 逻辑结构设计
+#### 5.2 逻辑结构设计
 
 - 用户表：
 
@@ -148,11 +196,11 @@ History(id, account, search_input, search_time)
 
 Discount(id, account, item_name, price)
 
-#### 4.3 数据表设计
+#### 5.3 数据表设计
 
     本项目的数据库共设计4个数据表，分别用于存储用户信息、商品信息、搜索历史、降价提醒设置，具体的表结构设计情况如下：
 
-##### 4.3.1 user表
+##### 5.3.1 user表
 
 - 该表用于保存用户的信息：
 
@@ -163,7 +211,7 @@ Discount(id, account, item_name, price)
 | password | varchar(128) | 用户密码 |       非空       |
 |  email  | varchar(128) |   邮箱   |   非空，unique   |
 
-##### 4.3.2 item表
+##### 5.3.2 item表
 
 - 该表用于保存商品的信息：
 
@@ -177,7 +225,7 @@ Discount(id, account, item_name, price)
 |   image   | varchar(512) | 商品图片地址 |                  |
 | shop_name | varchar(512) | 所属商家名称 |                  |
 
-##### 4.3.3 history表
+##### 5.3.3 history表
 
 - 该表用于保存用户对商品的搜索历史：
 
@@ -188,7 +236,7 @@ Discount(id, account, item_name, price)
 | search_input | varchar(128) |   搜索内容   |       非空       |
 | search_time |   datetime   |   搜索时间   |       非空       |
 
-##### 4.3.4 discount表
+##### 5.3.4 discount表
 
 - 该表用于保存降价提醒的设置：
 
@@ -199,11 +247,11 @@ Discount(id, account, item_name, price)
 | item_name | varchar(512) |   商品名称   |       非空       |
 |   price   |    double    | 商品最新价格 |       非空       |
 
-### 五、系统接口设计
+### 六、系统接口设计
 
-#### 5.1 用户信息相关接口
+#### 6.1 用户信息相关外部接口
 
-##### 5.1.1 用户登录
+##### 6.1.1 用户登录
 
 |   项目   |          内容          |
 | :------: | :--------------------: |
@@ -220,7 +268,7 @@ Discount(id, account, item_name, price)
 |   密码错误   |         message: “密码错误”；         |
 | 账号密码正确 | token，message: “login successfully”。 |
 
-##### 5.1.2 用户注册
+##### 6.1.2 用户注册
 
 |   项目   |                   内容                   |
 | :------: | :---------------------------------------: |
@@ -242,7 +290,7 @@ Discount(id, account, item_name, price)
 |     验证码错误     |      message: “验证码错误”；      |
 |  并非以上所有情况  | message: “register successfully”； |
 
-##### 5.1.3 发送验证码
+##### 6.1.3 发送验证码
 
 |   项目   |       内容       |
 | :------: | :--------------: |
@@ -258,7 +306,7 @@ Discount(id, account, item_name, price)
 |   邮箱不存在   |   message: “邮箱不存在”；   |
 | 验证码发送成功 | message: “验证码发送成功”； |
 
-##### 5.1.4 重置密码
+##### 6.1.4 重置密码
 
 |   项目   |                    内容                    |
 | :------: | :----------------------------------------: |
@@ -278,9 +326,9 @@ Discount(id, account, item_name, price)
 | 密码格式不符合要求 |      message: “密码过短”；      |
 |    密码重置成功    | message: “reset successfully”； |
 
-#### 5.2 商品信息相关接口
+#### 6.2 商品信息相关外部接口
 
-##### 5.2.1 商品实时查询
+##### 6.2.1 商品实时查询
 
 |   项目   |           内容           |
 | :------: | :----------------------: |
@@ -296,7 +344,7 @@ Discount(id, account, item_name, price)
 | 在某个爬虫失败 | items: []； message: “fail on xxxspider”； |
 |  正常查询成功  |       items； message: “查询成功”；       |
 
-##### 5.2.2 商品价格趋势查询
+##### 6.2.2 商品价格趋势查询
 
 |   项目   |      内容      |
 | :------: | :-------------: |
@@ -311,9 +359,9 @@ Discount(id, account, item_name, price)
 | :----------: | :----------------------------: |
 | 正常查询成功 | items; message: “查询成功”； |
 
-#### 5.3 用户搜索历史相关接口
+#### 6.3 用户搜索历史相关外部接口
 
-##### 5.3.1 插入用户搜索历史
+##### 6.3.1 插入用户搜索历史
 
 |   项目   |       内容       |
 | :------: | :--------------: |
@@ -329,7 +377,7 @@ Discount(id, account, item_name, price)
 | jwt解析失败 | message: “invalid token”； |
 | 正常插入成功 |   message: “插入成功”；   |
 
-##### 5.3.2 获取用户搜索历史
+##### 6.3.2 获取用户搜索历史
 
 |   项目   |        内容        |
 | :------: | :----------------: |
@@ -345,9 +393,9 @@ Discount(id, account, item_name, price)
 | jwt解析失败 |    message: “invalid token”；    |
 | 正常查询成功 | history[]; message: “查询成功”； |
 
-#### 5.4 降价提醒相关接口
+#### 6.4 降价提醒相关外部接口
 
-##### 5.4.1 设置降价提醒
+##### 6.4.1 设置降价提醒
 
 |   项目   |            内容            |
 | :------: | :-------------------------: |
@@ -363,7 +411,7 @@ Discount(id, account, item_name, price)
 | jwt解析失败 | message: “invalid token”； |
 | 正常插入成功 |   message: “插入成功”；   |
 
-##### 5.4.2 获取降价信息并提醒
+##### 6.4.2 获取降价信息并提醒
 
 |   项目   |         内容         |
 | :------: | :------------------: |
@@ -379,43 +427,212 @@ Discount(id, account, item_name, price)
 | jwt解析失败 | message: “invalid token”； |
 | 正常获取成功 |   message: “获取成功”；   |
 
-### 六、系统界面原型
+##### 6.4.3 删除降价提醒
 
-#### 6.1 用户登录界面
+|   项目   |            内容            |
+| :------: | :----------: |
+|   URL   | /discount/delete |
+| 请求方式 |       POST    |
+| 请求参数 | jwt_value, item_name |
+| 返回参数 |     message     |
 
-##### 6.1.1 登录界面
+简介：用户删除降价提醒接口，用于删除用户的降价提醒。根据不同情况有以下处理结果：
+
+|     情况     |            返回值            |
+| :----------: | :----------: |
+| jwt解析失败 | message: “invalid token”； |
+| 降价提醒不存在 |   message: “降价提醒不存在”；   |
+| 降价提醒删除成功 |   message: “降价提醒删除成功”；   |
+
+#### 6.5 内部接口
+
+##### 6.5.1 用户信息相关内部接口（UserController）
+
+1. 用户登录：`/user/login`
+
+- 输入：
+    - `String account`: 账户
+    - `String password`: 密码
+- 输出：
+    - 1. 用户不存在：`APIResponse("用户不存在", 200)`
+    - 2. 密码错误：`APIResponse("密码错误", 200)`
+    - 3. 登录成功：`APIResponse("login successfully", 200, jwt_value)`
+
+2. 用户注册：`/user/register`
+
+- 输入：
+    - `String account`: 账户
+    - `String password`: 密码
+    - `String email`: 邮箱
+    - `String code`: 验证码
+    - `String jwt_value`: 用于验证的JWT
+- 输出：
+    - 1. 账号已存在：`APIResponse("账号已存在", 200)`
+    - 2. 邮箱已存在：`APIResponse("邮箱已存在", 200)`
+    - 3. 帐户名过短：`APIResponse("帐户名过短", 200)`
+    - 4. 密码过短：`APIResponse("密码过短", 200)`
+    - 5. 邮箱格式有误：`APIResponse("邮箱格式有误", 200)`
+    - 6. 验证码已失效：`APIResponse("验证码已失效", 200)`
+    - 7. 验证码错误：`APIResponse("验证码错误", 200)`
+    - 8. 注册成功：`APIResponse("register successfully", 200)`
+
+3. 发送验证码：`/user/send_email`
+
+- 输入：
+    - `String email`: 邮箱
+- 输出：
+    - 1. 邮箱不存在：`APIResponse("邮箱不存在", 200)`
+    - 2. 验证码发送成功：`APIResponse("验证码发送成功", 200)`
+
+4. 重置密码：`/user/reset_password`
+
+- 输入：
+    - `String account`: 账户
+    - `String password`: 密码
+    - `String email`: 邮箱
+    - `String code`: 验证码
+    - `String jwt_value`: 用于验证的JWT
+- 输出：
+    - 1. 用户不存在：`APIResponse("用户不存在", 200)`
+    - 2. 邮箱与帐户名不匹配：`APIResponse("邮箱与帐户名不匹配", 200)`
+    - 3. 验证码已失效：`APIResponse("验证码已失效", 200)`
+    - 4. 验证码错误：`APIResponse("验证码错误", 200)`
+    - 5. 密码过短：`APIResponse("密码过短", 200)`
+    - 6. 密码重置成功：`APIResponse("reset successfully", 200)`
+
+##### 6.5.2 商品信息相关内部接口（ItemController）
+
+1. 商品实时查询：`/item/insert`
+
+- 输入：
+    - `String input`: 用户输入的商品名称
+- 输出：
+    - 1. 在某个爬虫失败：`APIResponse("fail on xxxspider", 200, items)`
+    - 2. 正常查询成功：`APIResponse("查询成功", 200, items)`
+
+2. 商品价格趋势查询：`/item/get`
+
+- 输入：
+    - `String name`: 商品名称
+- 输出：
+    - 1. 正常查询成功：`APIResponse("查询成功", 200, items)`
+
+##### 6.5.3 用户搜索历史相关内部接口（HistoryController）
+
+1. 插入用户搜索历史：`/history/insert`
+
+- 输入：
+    - `String jwt_value`: 用于验证的JWT
+    - `String input`: 用户输入的搜索内容
+- 输出：
+    - 1. jwt解析失败：`APIResponse("invalid token", 200)`
+    - 2. 正常插入成功：`APIResponse("插入成功", 200)`
+
+2. 获取用户搜索历史：`/history/get`
+
+- 输入：
+    - `String jwt_value`: 用于验证的JWT
+- 输出：
+    - 1. jwt解析失败：`APIResponse("invalid token", 200)`
+    - 2. 正常查询成功：`APIResponse("查询成功", 200, history)`
+
+##### 6.5.4 降价提醒相关内部接口（DiscountController）
+
+1. 设置降价提醒：`/discount/set`
+
+- 输入：
+    - `String jwt_value`: 用于验证的JWT
+    - `String item_name`: 商品名称
+    - `double price`: 商品最新价格
+- 输出：
+    - 1. jwt解析失败：`APIResponse("invalid token", 200)`
+    - 2. 正常插入成功：`APIResponse("插入成功", 200)`
+
+2. 获取降价信息并提醒：`/discount/get`
+
+- 输入：
+    - `String jwt_value`: 用于验证的JWT
+- 输出：
+    - 1. jwt解析失败：`APIResponse("invalid token", 200)`
+    - 2. 正常获取成功：`APIResponse("获取成功", 200, discounts)`
+
+3. 删除降价提醒：`/discount/delete`
+
+- 输入：
+    - `String jwt_value`: 用于验证的JWT
+    - `String item_name`: 商品名称
+- 输出：
+    - 1. jwt解析失败：`APIResponse("invalid token", 200)`
+    - 2. 降价提醒不存在：`APIResponse("降价提醒不存在", 200)`
+    - 3. 降价提醒删除成功：`APIResponse("降价提醒删除成功", 200)`
+
+### 七、系统界面原型
+
+#### 7.1 用户登录界面
+
+##### 7.1.1 登录界面
 
 ![1729564394434](image/design_doc/1729564394434.png)
 
-##### 6.1.2 忘记密码界面
+##### 7.1.2 忘记密码界面
 
 ![1729564430183](image/design_doc/1729564430183.png)
 
-##### 6.1.3 注册界面
+##### 7.1.3 注册界面
 
 ![1729564479085](image/design_doc/1729564479085.png)
 
-##### 6.1.4 我的关注界面
+##### 7.1.4 我的关注界面
 
 ![1729612923153](image/design_doc/1729612923153.png)
 
-#### 6.2 商品查询/展示界面
+#### 7.2 商品查询/展示界面
 
-##### 6.2.1 商品查询界面
+##### 7.2.1 商品查询界面
 
 ![1729608428645](image/design_doc/1729608428645.png)
 
-##### 6.2.2 商品展示界面
+##### 7.2.2 商品展示界面
 
 ![1729567790995](image/design_doc/1729567790995.png)
 
-##### 6.2.3 商品详情界面
+##### 7.2.3 商品详情界面
 
 ![1729592293329](image/design_doc/1729592293329.png)
 
-### 七、系统出错设计
+#### 7.3 手机端适配界面
 
-#### 7.1 出错信息
+网站应保证在设置为在移动端登录时，也能够正常显示：
+
+##### 7.3.1 手机端登录界面
+
+![1731320772735](image/design_doc/1731320772735.png)
+
+##### 7.3.2 手机端忘记密码界面
+
+![1731320828698](image/design_doc/1731320828698.png)
+
+##### 7.3.3 手机端注册界面
+
+![1731320844409](image/design_doc/1731320844409.png)
+
+##### 7.3.4 手机端商品查询界面
+
+![1731320867585](image/design_doc/1731320867585.png)
+
+##### 7.3.5 手机端商品展示界面
+
+![1731320909640](image/design_doc/1731320909640.png)
+
+##### 7.3.6 手机端商品关注界面
+
+![1731320973052](image/design_doc/1731320973052.png)
+
+同时，未来开发计划使用React Native开发移动端APP，并打包为apk或IOS安装包形式尝试部署到安卓系统/IOS系统上，完成对应的手机端App开发。
+
+### 八、系统出错设计
+
+#### 8.1 出错信息
 
 1. 数据库无法连接
 
@@ -447,7 +664,7 @@ Discount(id, account, item_name, price)
 
 处理方法：使用参数绑定的方法进行SQL语句构建。对用户的输入进行过滤、检查
 
-#### 7.2 补救措施
+#### 8.2 补救措施
 
 1. 系统恢复
 
@@ -460,15 +677,15 @@ Discount(id, account, item_name, price)
 
 当出现紧急情况时，数据库管理员人工对数据库中数据进行修改，并做相应的记录。
 
-#### 7.3 系统维护设计
+#### 8.3 系统维护设计
 
 1. 用户在该系统执行操作时应该留下痕迹，以方便检查系统是否被恶意篡改。同时系统管理员定时查看系统日志，统计非法攻击来源和次数，并针对相应攻击加强安全防范措施。
 2. 系统维护人员及时更新技术漏洞，通过各种手段防止各种对系统的攻击，增强代码的可靠性。
 3. 定期维护数据库，涉及到检查数据库表、检查日志文件等，确保数据库内数据的正确性。
 
-### 八、附录
+### 九、附录
 
-#### 8.1 项目进度安排
+#### 9.1 项目进度安排
 
 |     时间段     |            计划进度            |
 | :------------: | :----------------------------: |
@@ -477,6 +694,6 @@ Discount(id, account, item_name, price)
 |  2024.11 下旬  | 系统集成与测试以及相关文档编写 |
 |    2024.12    |       用户手册等文档编写       |
 
-#### 8.2 备注
+#### 9.2 备注
 
 本设计文档内容仅供参考，最终效果以实现代码为准。
