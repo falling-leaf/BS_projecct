@@ -29,5 +29,7 @@ public class Item {
     String platform;
     @Column(length = 512)
     String image;
+    @Column(length = 512)
+    String item_id;
 }
 

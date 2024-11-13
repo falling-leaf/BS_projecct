@@ -32,6 +32,7 @@ public class jdspider {
         // 获取ul标签下的所有li标签
         Elements liList = ul.select("li");
         for (Element element : liList) {
+            String item_final_id = element.attr("data-sku");
             Element pictElement = element.getElementsByTag("img").first();
             String pict = pictElement != null ? pictElement.attr("data-lazy-img") : "unknown";
             Element nameElement = element.getElementsByClass("p-name").first();
@@ -46,6 +47,7 @@ public class jdspider {
             long round = Math.round(Double.parseDouble(price) * 100);
             Double final_price = round / 100.0;
             Item item = new Item();
+            item.setItem_id(item_final_id);
             item.setItem_name(name);
             item.setPrice(final_price);
             item.setShop_name(shopName);

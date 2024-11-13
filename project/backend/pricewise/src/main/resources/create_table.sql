@@ -21,7 +21,8 @@ create table if not exists Item (
     shop_name varchar(512),
     item_time DATETIME not null,
     platform varchar(128) not null,
-    image varchar(256)
+    image varchar(256),
+    item_id varchar(512)
 );
 
 create table if not exists Discount (
