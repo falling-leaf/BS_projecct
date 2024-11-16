@@ -24,7 +24,7 @@ public class DiscountController {
     private DiscountService discountService;
 
     @PostMapping("/insert")
-    public ResponseEntity<APIResponse> insertNewDiscount(@RequestParam String jwt_value, @RequestParam String item_name, @RequestParam Double price, @RequestParam LocalDateTime item_time) {
+    public ResponseEntity<APIResponse> insertNewDiscount(@RequestParam String jwt_value, @RequestParam String item_name, @RequestParam Double price, @RequestParam LocalDateTime item_time, @RequestParam String platform) {
         String account;
         try {
             account = JwtUtil.paraJWT2account(jwt_value);
@@ -40,9 +40,11 @@ public class DiscountController {
             discount.setPrice(price);
             discount.setItem_name(item_name);
             discount.setItem_time(item_time);
+            discount.setPlatform(platform);
 
             discountService.insertDiscount(discount);
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.ok(new APIResponse("sql exception", 200));
         }
 

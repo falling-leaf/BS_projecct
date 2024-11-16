@@ -13,7 +13,8 @@ const ItemCard = ({item}) => {
           jwt_value: localStorage.getItem('token'),
           item_name: item.item_name,
           price: Number(item.price),
-          item_time: item.item_time
+          item_time: item.item_time,
+          platform: item.platform
       }
   })
   .then(res => {

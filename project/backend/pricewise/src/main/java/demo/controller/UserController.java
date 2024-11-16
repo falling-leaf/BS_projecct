@@ -84,7 +84,7 @@ public class UserController {
         if (!isValidEmail(email)){
             return ResponseEntity.ok(new APIResponse("邮箱格式不正确，请重新输入", 200));
         } else {
-            String code = EmailSender.email_sender(email);
+            String code = EmailSender.code_sender(email);
             String jwt_value = JwtUtil.createJWT("email", email, code);
             System.out.println(jwt_value);
             APIResponse response = new APIResponse("send successfully", 200, jwt_value);

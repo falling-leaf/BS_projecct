@@ -30,5 +30,6 @@ create table if not exists Discount (
     account varchar(128) not null,
     item_name varchar(512) not null,
     price double not null,
-    item_time DATETIME not null
+    item_time DATETIME not null,
+    platform varchar(128) not null
 );

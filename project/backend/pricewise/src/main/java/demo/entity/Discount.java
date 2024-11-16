@@ -25,4 +25,6 @@ public class Discount {
     Double price;
     @Column(nullable = false)
     LocalDateTime item_time;
+    @Column(length = 128, nullable = false)
+    String platform;
 }

@@ -45,7 +45,7 @@ public class ItemController {
             item_set.addAll(tmp_item_set);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            return ResponseEntity.ok(new APIResponse("fail on jdspider", 200));
+             // return ResponseEntity.ok(new APIResponse("fail on jdspider", 200));
         }
 //        try {
 //            tmp_item_set = en_vipspider.get_vipspider(input);
@@ -63,7 +63,8 @@ public class ItemController {
                 tmp_item_set = tmp_item_set.subList(0, 40);
             item_set.addAll(tmp_item_set);
         } catch (Exception e) {
-            return ResponseEntity.ok(new APIResponse("fail on alispider", 200));
+            System.out.println(e.getMessage());
+            // return ResponseEntity.ok(new APIResponse("fail on alispider", 200));
         }
         try {
             tmp_item_set = en_amazonspider.get_amazonspider(input);
@@ -71,7 +72,8 @@ public class ItemController {
                 tmp_item_set = tmp_item_set.subList(0, 40);
             item_set.addAll(tmp_item_set);
         } catch (Exception e) {
-            return ResponseEntity.ok(new APIResponse("fail on amazonspider", 200));
+            System.out.println(e.getMessage());
+            // return ResponseEntity.ok(new APIResponse("fail on amazonspider", 200));
         }
         // 把东西弄到数据库中
         for (Item item : item_set) {

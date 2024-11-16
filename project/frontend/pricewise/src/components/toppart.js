@@ -13,6 +13,7 @@ const TopPart = () => {
     }
 
     const handleMyDiscount = () => {
+        console.log('my discount');
         window.location.href = '/mydiscount';
     }
 
