@@ -26,6 +26,10 @@ const Forget = () => {
   }, [seconds, timerActive]);
 
   const handleSendCode = () => {
+    if (email === '') {
+      message.error('邮箱不能为空');
+      return;
+    }
     console.log(email);
     axios.get('/user/send_email', {
       params: {
@@ -33,7 +37,7 @@ const Forget = () => {
       }
     })
     .then(res => {
-      if (res.data.message === 'send successfully'){
+      if (res.data.message === '发送成功'){
         localStorage.setItem('reset_token', res.data.payload);
         console.log(res.data);
         console.log(res.data.payload);
@@ -49,6 +53,30 @@ const Forget = () => {
   }
 
   const handleSubmit = () => {
+    if (username === '') {
+      message.error('账户不能为空');
+      return;
+    }
+    if (email === '') {
+      message.error('邮箱不能为空');
+      return;
+    }
+    if (code === '') {
+      message.error('验证码不能为空');
+      return;
+    }
+    if (password === '') {
+      message.error('密码不能为空');
+      return;
+    }
+    if (password.length < 6) {
+      message.error('密码不可少于6位');
+      return;
+    }
+    if (confirmpassword !== password) {
+      message.error('两次密码输入不一致');
+      return;
+    }
     axios.post('/user/reset_password', null, {
       params: {
         account: username,
@@ -59,7 +87,7 @@ const Forget = () => {
       }
     })
    .then(res => {
-      if (res.data === 'reset successfully'){
+      if (res.data.message === '重置密码成功'){
         localStorage.removeItem('reset_token');
         message.success('密码重置成功，请重新登录');
         setTimeout(() => {
@@ -67,7 +95,7 @@ const Forget = () => {
         }, 1000);
       }
       else
-        message.error(res.data);
+        message.error(res.data.message);
     })
    .catch(error => {
       console.log(error);

@@ -11,14 +11,22 @@ const Login = () => {
   const handleLogin = () => {
       console.log(username);
       console.log(password);
-      axios.post('/user/login', null,{
+      if (username === '') {
+        message.error('用户名不能为空！');
+        return;
+      }
+      if (password === '') {
+        message.error('密码不能为空！');
+        return;
+      }
+      axios.post('/user/login', null, {
         params: {
           account: username,
           password: password
         }
       })
      .then(res => {
-        if (res.data.message === "login successfully") {
+        if (res.data.message === "登录成功") {
           localStorage.setItem('token', res.data.payload);
           localStorage.setItem('username', username);
           window.location.href = '/search';
@@ -66,7 +74,7 @@ const Login = () => {
             style={{ width: 300 }}
             onChange = {handleUsername}
             placeholder="用户名" />
-            <p></p>
+            <p/>
             <div>
             <Input.Password 
             prefix = "密码:" 
@@ -75,23 +83,23 @@ const Login = () => {
             onChange = {handlePassword}
             onPressEnter={handleLogin}
             placeholder="密码" />
-            <p/>
             </div>
+            <p/>
 
             <Button 
             onClick={handleLogin} 
             type="primary" 
             size="large" 
             style={{ width: 300 }}>登录</Button>
-            <p></p>
+            <p/>
 
             <Button 
             type = "dashed" 
             size = "large" 
             style = {{ width: 300 }} 
             onClick={handleForgetPassword}>忘记密码?</Button>
-
-            <p></p>
+            <p/>
+            
             <Button 
             type = "dashed"
             size = "large"
