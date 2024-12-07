@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Card, Button, Modal, message } from 'antd';
+import { Card, Button, Modal, message, Typography } from 'antd';
 import axios from 'axios';
+
+const { Text } = Typography;
 
 const ItemCard = ({item}) => {
 
@@ -58,7 +60,7 @@ const ItemCard = ({item}) => {
         <p onClick={onClick}>{item.item_name}</p>
         <p onClick={onClick}>{item.shop_name}</p>
         <div>
-          <div style={{ color: 'red' }}>￥{item.price}</div>
+          <Text strong style = {{ color: 'red'}}>￥{item.price}</Text>
           <Button type = "primary" style={{ float: 'right' }} onClick={() =>onShowMedal(item.item_name)}>设置降价提醒</Button>
         </div>
       </Card>

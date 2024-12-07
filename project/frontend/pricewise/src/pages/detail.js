@@ -10,8 +10,22 @@ const Detail = () => {
     const [data, setData] = useState([{id: null, item_name: null, price: null, platform: null, shop_name: null, image: null}]);
     const [item_name, setItem_Name] = useState("");
     const [latest_data, setLatest_Data] = useState([]);
+    const [isMobile, setIsMobile] = useState(false);
 
     const location = useLocation();
+
+    useEffect(() => {
+        const handleResize = () => {
+        setIsMobile(window.innerWidth < 768);
+        };
+
+        window.addEventListener("resize", handleResize);
+        handleResize();
+
+        return () => {
+        window.removeEventListener("resize", handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -49,6 +63,22 @@ const Detail = () => {
             <div style = {{display: 'flex', justifyContent: 'center', margin: '1%'}}>
                 <h2>【{item_name}】</h2>
             </div>
+            {isMobile && (
+            <div>
+                <div>
+                    <img src = {latest_data.image} alt = {item_name} style = {{marginLeft: '25%', width: '50%', height: '50%'}} />
+                </div>
+                <div>
+                    <Descriptions title="商品信息" layout="vertical" bordered="true" style={{width: '80%', marginLeft: '5%'}}>
+                        <Descriptions.Item label="商品名称">{item_name}</Descriptions.Item>
+                        <Descriptions.Item label="商品最新价格">{latest_data.price}</Descriptions.Item>
+                        <Descriptions.Item label="商品来源">{latest_data.platform === null ? '暂无' : latest_data.platform}</Descriptions.Item>
+                        <Descriptions.Item label="商品商家">{latest_data.shop_name === null ? '暂无' : latest_data.shop_name}</Descriptions.Item>
+                    </Descriptions>
+                </div>
+            </div>
+            )}
+            {!isMobile && (
             <div style = {{display: 'flex', justifyContent: 'center', margin: '1%'}}>
                 <div>
                     <img src = {latest_data.image} alt = {item_name} style = {{width: '100%', height: '100%'}} />
@@ -62,6 +92,7 @@ const Detail = () => {
                     </Descriptions>
                 </div>
             </div>
+            )}
             <div style = {{display: 'flex', justifyContent: 'center', margin: '1%'}}>
             价格走势图
             </div>
