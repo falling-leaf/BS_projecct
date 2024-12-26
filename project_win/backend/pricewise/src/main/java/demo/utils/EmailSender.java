@@ -39,7 +39,7 @@ public class EmailSender {
 
             // 发送邮件
             Transport.send(message);
-            System.out.println("验证码已发送至 " + target_email);
+//            System.out.println("验证码已发送至 " + target_email);
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

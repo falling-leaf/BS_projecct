@@ -26,6 +26,7 @@ public class jdspider {
         cookies.put("thor", "37B4D61543EED1286AD903B1BE3347B2112FCB3B1B7A5BC33EDCEFA3EF70FDE7F63C95D261BF82E0A9173714E8DBD69883DA7E7894C306C8876FC7C562E0E7417AD7368420CFFCC4CB66CA46E70FC06A99226F57075CD8966DD23A76599A10479BE697B3DCD78E1F8E0BF1D0327BA43325FD557EE95ACC9AF297F1DCA62946B02C0EC128CADC53DDEBDD3EFF4830CA7F88AACC2BD8DC4A7A06A7292BE588EB1C");
         String whole_url = url + input;
         Document document = Jsoup.connect(whole_url).cookies(cookies).get();
+        System.out.println(document);
         LocalDateTime time = LocalDateTime.now();
         // 通过class获取ul标签
         Elements ul = document.getElementsByClass("gl-warp clearfix");

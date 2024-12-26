@@ -47,15 +47,15 @@ public class RefreshDiscount {
                 switch (platform) {
                     case "京东" -> {
                         jdspider en_jdspider = new jdspider();
-                        ret = en_jdspider.get_jdspider(item_name);
+                        ret = en_jdspider.get_jdspider(item_name.replace(" ", "").replace("|", ""));
                     }
                     case "阿里巴巴" -> {
                         alispider en_alispider = new alispider();
-                        ret = en_alispider.get_alispider(item_name);
+                        ret = en_alispider.get_alispider(item_name.replace(" ", "").replace("|", ""));
                     }
                     case "亚马逊" -> {
                         amazonspider en_amazonspider = new amazonspider();
-                        ret = en_amazonspider.get_amazonspider(item_name);
+                        ret = en_amazonspider.get_amazonspider(item_name.replace(" ", "").replace("|", ""));
                     }
                 }
             } catch (Exception e) {
@@ -64,8 +64,8 @@ public class RefreshDiscount {
             for (Item item : ret) {
                 if (item.getItem_name().equals(item_name)) {
                     Newprice = item.getPrice();
-                    // if (true) {
-                    if (Newprice < price) {
+                    if (true) {
+                    // if (Newprice < price) {
                         // 发送邮件的逻辑
                         User res_user = user_service.find_user_by_account(el.getAccount());
                         if (res_user != null) {

@@ -20,13 +20,12 @@ public class amazonspider {
     static String url = "https://www.amazon.com/s?language=zh_CN&currency=CNY&k=";
     static Map<String, String> cookies = new HashMap<String, String>();
 
-    static public List<Item> get_amazonspider(String input) throws IOException {
+    public List<Item> get_amazonspider(String input) throws IOException {
         List<Item> res_item = new ArrayList<>();
         String whole_url = url + input;
         Document document = Jsoup.connect(whole_url).header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
                 "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3").get();
         LocalDateTime time = LocalDateTime.now();
-        System.out.println(document);
         Elements res = document.select("[data-component-type='s-search-result']");
         for (Element element : res) {
             String item_final_id = element.attr("data-asin");

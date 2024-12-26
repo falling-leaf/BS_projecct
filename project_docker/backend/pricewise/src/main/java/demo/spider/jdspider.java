@@ -27,7 +27,7 @@ public class jdspider {
         String whole_url = url + input;
         Document document = Jsoup.connect(whole_url).header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
                 "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3").cookies(cookies).get();
-        System.out.println(document);
+        // System.out.println(document);
         LocalDateTime time = LocalDateTime.now();
         // 通过class获取ul标签
         Elements ul = document.getElementsByClass("gl-warp clearfix");

@@ -57,6 +57,22 @@ create database pricewise;
 
 ### 1.2 docker启动
 
+docker启动中，由于相关软件依赖受`Windows`操作系统限制，因此阿里巴巴爬虫暂不能使用。
+
+需要基本配置环境如下：
+
+- `docker`
+- `docker-compose`
+- `MySQL`
+
+在本地数据库中，执行如下命令：
+
+```sql
+create database pricewise;
+```
+
+在`project_docker/.env`文件中，将MYSQL_ROOT_PASSWORD更改为本地数据库的密码。
+
 在`project_docker`中，直接运行如下命令：
 
 ```bash

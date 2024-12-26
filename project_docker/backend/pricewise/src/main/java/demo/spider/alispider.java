@@ -27,16 +27,19 @@ public class alispider {
 
         // 使用Selenium动态渲染页面
         WebDriver driver = null;
-        // 设置EdgeDriver的路径
-        // String edgeDriverPath = System.getProperty("user.dir") + "\\src\\main\\resources\\msedgedriver.exe";
-        String edgeDriverPath = System.getProperty("user.dir") + "/src/main/resources/msedgedriver.exe";
+        // // 设置EdgeDriver的路径
+        // // String edgeDriverPath = System.getProperty("user.dir") + "\\src\\main\\resources\\msedgedriver.exe";
+        // String edgeDriverPath = System.getProperty("user.dir") + "/src/main/resources/msedgedriver.exe";
         
-        System.setProperty("webdriver.edge.driver", edgeDriverPath);
+        // System.setProperty("webdriver.edge.driver", edgeDriverPath);
 
         // 创建EdgeOptions对象
         EdgeOptions options = new EdgeOptions();
-        options.addArguments("--headless"); // 无头模式，不打开浏览器窗口
-
+        options.addArguments("--headless=old"); // 无头模式，不打开浏览器窗口
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         // 创建WebDriver实例
         driver = new EdgeDriver(options);
 
