@@ -26,6 +26,74 @@
 
 ### 2. 安装和配置指南
 
+本程序提供了Windows/Docker两种不同的程序运行环境对应的程序，其中安装和配置的方法分别为：
+
+#### 2.1 Windows环境安装
+
+在安装前，您需要保证电脑包含如下配置：
+
+- Windows 7或更高版本
+- 已安装`npm`包管理器
+- 已安装`JDK 21`
+- 已安装`MySQL`
+
+在Windows操作系统下，将`project_win`作为工作目录：
+
+在`./frontend/pricewise`中运行：
+
+```bash
+npm install
+npm start
+```
+
+启动前端；
+
+在`project_win\backend\pricewise\src\main\resources\application.properties`中，进行数据库配置连接：
+
+将其中的`spring.datasource.password`字段修改为主机MySQL对应的密码。
+
+在数据库中运行：
+
+```sql
+create database pricewise;
+```
+
+在`./backend/pricewise`中运行：
+
+```bash
+mvn clean package
+java -jar target/pricewise-0.0.1-SNAPSHOT.jar
+```
+
+启动后端。
+
+之后，在`http://localhost:3000`即可访问并使用网站。
+
+#### 2.2 Docker环境安装
+
+在安装前，您需要保证电脑包含如下配置：
+
+- Docker环境
+    - 以Windows操作系统为例，应当安装Docker Desktop，并启动Docker服务。
+- MySQL
+
+在`project_docker/.env`文件中，将密码改为本地主机的MySQL密码
+
+在数据库中运行：
+
+```sql
+create database pricewise;
+```
+
+在`project_docker`目录下运行：
+
+```bash
+docker-compose build --no-cache
+docker-compose up
+```
+
+后，即可在本地主机`http://localhost:3000`访问并使用网站。
+
 ### 3. 功能说明
 
 #### 3.1 注册账号
@@ -160,6 +228,29 @@
 
 ### 4. 移动端适配
 
+#### 4.1 手机端登录界面
+
+![1731320772735](image/design_doc/1731320772735.png)
+
+#### 4.2 手机端忘记密码界面
+
+![1731320828698](image/design_doc/1731320828698.png)
+
+#### 4.3 手机端注册界面
+
+![1731320844409](image/design_doc/1731320844409.png)
+
+#### 4.4 手机端商品查询界面
+
+![1731320867585](image/design_doc/1731320867585.png)
+
+#### 4.5 手机端商品展示界面
+
+![1731320909640](image/design_doc/1731320909640.png)
+
+#### 4.6 手机端商品关注界面
+
+![1731320973052](image/design_doc/1731320973052.png)
 
 
 ### 5. 联系方式
